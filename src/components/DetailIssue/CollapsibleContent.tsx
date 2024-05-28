@@ -48,7 +48,7 @@ const CollapsibleContent = ({ content }: { content: string }) => {
       />
       {shouldShowToggle && (
         <span onClick={toggleExpanded} className={styles.toggle}>
-          {expanded ? 'Show less' : '...Show more'}
+          {expanded ? 'Show less' : '... Show more'}
         </span>
       )}
     </div>
