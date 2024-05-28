@@ -25,6 +25,7 @@ import { ConversationEvent } from '@/utils/socket/socket.type';
 import 'quill-mention';
 import { uploadFile } from '@/api/client/upload';
 import icons from '@/assets/icons';
+import CollapsibleContent from './CollapsibleContent';
 
 const EditIssue = lazy(() => import('@/components/EditIssue'));
 
@@ -316,6 +317,11 @@ export default function IssueDetail({
                 const quill = (quillRef.current as any).getEditor();
                 const range = quill.getSelection(true);
                 quill.insertEmbed(range.index, 'image', url);
+                // style for image
+                const img = quill.container.querySelector('img[src="' + url + '"]');
+                img.style.width = '50%';
+                img.style.height = 'auto';
+
                 quill.setSelection(range.index + 1);
               }
             };
@@ -490,28 +496,36 @@ export default function IssueDetail({
                 modules={modules}
                 onKeyDown={handleKeyDown}
               />
-              <button
+              <div
                 style={{
-                  padding: '5px 15px',
-                  borderRadius: '5px',
-                  border: 'solid 1px #adadad',
-                  backgroundColor: 'white',
-                  cursor: 'pointer',
-                }}
-                // onClick={() => handleCreateComment(editorHtml)}
-                // get content from Quill
-                onClick={() => {
-                  if (quillRef.current) {
-                    const quill = (quillRef.current as any).getEditor();
-                    let html = quill.root.innerHTML;
-                    handleCreateComment(html);
-                    // clear content after submit but dont close quill
-                    quill.root.innerHTML = '';
-                  }
+                  display: 'flex',
+                  justifyContent: 'right',
+                  alignItems: 'center',
+                  padding: '10px 0px',
                 }}
               >
-                Submit
-              </button>
+                <button
+                  className="btn btn-green"
+                  style={{
+                    padding: '5px 15px',
+                    borderRadius: '5px',
+                    border: 'solid 1px #adadad',
+                    cursor: 'pointer',
+                  }}
+                  // onClick={() => handleCreateComment(editorHtml)}
+                  // get content from Quill
+                  onClick={() => {
+                    if (quillRef.current) {
+                      const quill = (quillRef.current as any).getEditor();
+                      let html = quill.root.innerHTML;
+                      handleCreateComment(html);
+                      quill.root.innerHTML = '';
+                    }
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
               <List
                 itemLayout="horizontal"
                 dataSource={issueCommentData?.pages.map((page) => page.data).flat()}
@@ -528,17 +542,9 @@ export default function IssueDetail({
                         </div>
                       }
                       description={
-                        <ReactQuill
-                          value={item.content}
-                          readOnly={true}
-                          theme={'bubble'}
-                          style={{
-                            border: 'none',
-                            padding: '0px',
-                            marginLeft: '-20px',
-                            color: 'black',
-                          }}
-                        />
+                        <div style={{ color: 'black' }}>
+                          <CollapsibleContent content={item.content} />
+                        </div>
                       }
                     />
                   </List.Item>
@@ -554,11 +560,11 @@ export default function IssueDetail({
                   }}
                 >
                   <button
+                    className="btn btn-green"
                     style={{
-                      padding: '5px 15px',
                       borderRadius: '5px',
                       border: 'solid 1px #adadad',
-                      backgroundColor: 'white',
+                      width: '100%',
                       cursor: 'pointer',
                     }}
                     onClick={() => fetchNextPage()}
