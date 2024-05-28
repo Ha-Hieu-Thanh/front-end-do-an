@@ -11,6 +11,7 @@ import styles from './styles.module.scss';
 import { Message } from '@/connstant/enum/common';
 import { convertUTCToGMTPlus7, handleSuccessMessage } from '@/utils/helper/common';
 import { handleErrorMessage } from '@/i18n';
+import icons from '@/assets/icons';
 
 export default function DashboardProjectWiki() {
   const [wikiCurrent, setWikiCurrent] = useState<any>(null);
@@ -194,7 +195,7 @@ export default function DashboardProjectWiki() {
                   <Spin />
                 ) : (
                   <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
-                    <Avatar src={wikiCurrent?.created?.avatar} />
+                    <Avatar src={wikiCurrent?.created?.avatar ?? icons.HedLayer} />
                     <span style={{ marginLeft: '10px' }}>
                       {`Created by ${wikiCurrent?.created?.name} on ${convertUTCToGMTPlus7(wikiCurrent?.createdAt)}`}
                     </span>

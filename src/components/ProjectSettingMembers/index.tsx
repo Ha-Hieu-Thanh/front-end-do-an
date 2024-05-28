@@ -228,6 +228,9 @@ export default function ProjectSettingMembers() {
             <Select
               mode="multiple"
               placeholder="Please select categories (Only for SUB PM)"
+              filterOption={(input, option) => {
+                return (option?.children as any).toLowerCase()?.includes(input.toLowerCase());
+              }}
               disabled={roleSelecting !== UserProjectRole.SUB_PM}
             >
               {projectIssueCategories?.data?.data?.map((category: any) => (
@@ -274,7 +277,7 @@ export default function ProjectSettingMembers() {
         footer={null}
       >
         <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', marginBottom: '20px' }}>
-          <Avatar src={openUpdateStaff.record?.user?.avatar400x400}></Avatar>
+          <Avatar src={openUpdateStaff.record?.user?.avatar400x400 ?? icons.HedLayer}></Avatar>
           <span style={{ marginLeft: '10px', fontWeight: '500' }}>{openUpdateStaff.record?.user?.name}</span>
           <span style={{ marginLeft: '10px' }}>( {openUpdateStaff.record?.user?.email} )</span>
         </div>
@@ -304,6 +307,9 @@ export default function ProjectSettingMembers() {
               <Select
                 mode="multiple"
                 placeholder="Please select categories (Only for SUB PM)"
+                filterOption={(input, option) => {
+                  return (option?.children as any).toLowerCase()?.includes(input.toLowerCase());
+                }}
                 disabled={roleUpdateSelecting !== UserProjectRole.SUB_PM}
               >
                 {projectIssueCategories?.data?.data?.map((category: any) => (

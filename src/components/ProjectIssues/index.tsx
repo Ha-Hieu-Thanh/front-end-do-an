@@ -32,6 +32,7 @@ import { TitleIssueDetail } from '../ProjectBoard/task';
 import styles from './styles.module.scss';
 import useGetProjectDetail, { IDetailProject } from '@/utils/hooks/useGetDetailProject';
 import debounce from 'lodash/debounce';
+import icons from '@/assets/icons';
 
 const DetailIssue = lazy(() => import('@/components/DetailIssue'));
 interface IStatesSearch {
@@ -286,7 +287,7 @@ export default function DashboardProjectIssues() {
       render: (data: any, record: any) => {
         return (
           <div>
-            <Avatar src={data?.avatar400x400}></Avatar>
+            <Avatar src={data?.avatar400x400 ?? icons.HedLayer}></Avatar>
             <span style={{ marginLeft: '10px' }}>{data?.name || data?.email}</span>
           </div>
         );
@@ -299,7 +300,7 @@ export default function DashboardProjectIssues() {
       render: (data: any, record: any) => {
         return (
           <div>
-            <Avatar src={data?.avatar400x400}></Avatar>
+            <Avatar src={data?.avatar400x400 ?? icons.HedLayer}></Avatar>
             <span style={{ marginLeft: '10px' }}>{data?.name || data?.email}</span>
           </div>
         );
@@ -452,7 +453,9 @@ export default function DashboardProjectIssues() {
             optionFilterProp="children"
             onChange={(value) => onChange(value, ChangeFillType.ASSIGNEE)}
             allowClear
-            filterOption={(input, option: any) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+            filterOption={(input, option: any) => {
+              return (option?.label.props.children[1].props.children ?? '').toLowerCase().includes(input.toLowerCase());
+            }}
             style={{ width: 200, marginRight: '10px' }}
             size={'middle'}
             value={assigneeId}
@@ -460,7 +463,7 @@ export default function DashboardProjectIssues() {
               value: item.user.id,
               label: (
                 <div>
-                  <Avatar size={25} src={<img src={item.user.avatar50x50} alt="avatar" />} />
+                  <Avatar size={25} src={<img src={item.user.avatar50x50 ?? icons.HedLayer} alt="avatar" />} />
                   <span style={{ marginLeft: '10px' }}>{item.user?.name}</span>
                 </div>
               ),

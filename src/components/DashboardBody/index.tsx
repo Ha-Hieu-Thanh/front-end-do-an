@@ -327,7 +327,12 @@ function DashboardBody() {
                       renderItem={(item) => (
                         <List.Item key={item.created.name}>
                           <List.Item.Meta
-                            avatar={<Avatar src={item.created.avatar50x50} />}
+                            avatar={
+                              <Avatar
+                                size={40}
+                                src={item.created.avatar50x50 ? item.created.avatar50x50 : icons.HedLayer}
+                              ></Avatar>
+                            }
                             title={titleIssueHistory(item.type, item.created.name, item.id)}
                             description={
                               <>

@@ -22,6 +22,7 @@ import { PlusOutlined, UserOutlined, ToolOutlined } from '@ant-design/icons';
 import { UserProjectStatus } from '@/connstant/enum/common';
 import useProfileClient from '@/utils/hooks/useProfileClient';
 import styled from '@xstyled/styled-components';
+import icons from '@/assets/icons';
 
 const DashboardProjectAddIssue = lazy(() => import('@/components/ProjectAddIssue'));
 const Column = lazy(() => import('./column'));
@@ -335,9 +336,12 @@ function DashboardProjectBoard() {
                 placeholder="Assignee"
                 optionFilterProp="children"
                 onChange={(value) => onChange(value, ChangeFillType.ASSIGNEE)}
-                onSearch={onSearch}
                 allowClear
-                filterOption={(input, option: any) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
+                filterOption={(input, option: any) => {
+                  return (option?.label.props.children[1].props.children ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase());
+                }}
                 style={{ width: 200, marginRight: '10px' }}
                 size={'middle'}
                 value={assigneeId}
@@ -345,7 +349,7 @@ function DashboardProjectBoard() {
                   value: item.user.id,
                   label: (
                     <div>
-                      <Avatar size={25} src={<img src={item.user.avatar50x50} alt="avatar" />} />
+                      <Avatar size={25} src={<img src={item.user.avatar50x50 ?? icons.HedLayer} alt="avatar" />} />
                       <span style={{ marginLeft: '10px' }}>{item.user.name || item.user.email}</span>
                     </div>
                   ),

@@ -1,4 +1,5 @@
 import { getIssueDetail } from '@/api/client/project';
+import icons from '@/assets/icons';
 import { UserProjectRole } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
 import { FireTwoTone, UserOutlined } from '@ant-design/icons';
@@ -114,7 +115,10 @@ export default function Task(props: any) {
                 <ItemTFooter>
                   <div title={props.task?.assignee?.name}>
                     {props.task?.assignee?.avatar50x50 ? (
-                      <Avatar size={30} src={<img src={props.task?.assignee?.avatar50x50} alt="avatar" />} />
+                      <Avatar
+                        size={30}
+                        src={<img src={props.task?.assignee?.avatar50x50 ?? icons.HedLayer} alt="avatar" />}
+                      />
                     ) : (
                       <Avatar size={30} icon={<UserOutlined />} />
                     )}

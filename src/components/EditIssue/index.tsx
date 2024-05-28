@@ -137,6 +137,7 @@ export default function EditIssue({
         <Form.Item name="typeId">
           <Select
             style={{ width: '10%' }}
+            filterOption={(input, option: any) => (option?.label ?? '').includes(input)}
             options={projectIssueTypeQuery?.data?.map((item: any) => ({ value: item.id, label: item.name }))}
             size={size}
           ></Select>
@@ -164,6 +165,13 @@ export default function EditIssue({
                   style={{ width: '100%' }}
                   className={styles.itemInputxxx}
                   optionFilterProp="children"
+                  filterOption={(input, option: any) => {
+                    console.log(option);
+                    // return (option?.label.props.children[1].props.children ?? '')
+                    //   .toLowerCase()
+                    //   .includes(input.toLowerCase());
+                    return true;
+                  }}
                   options={(projectIssueStateQuery?.data || []).map((item: any) => ({
                     value: item.id,
                     label: (

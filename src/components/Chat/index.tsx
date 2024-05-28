@@ -107,7 +107,6 @@ export default function Chat() {
     );
     socket.on(ConversationEvent.CONVERSATION, (data: INewMessage) => {
       if (data.type === ActionConversationType.NEW_MESSAGE) {
-
         if (data.id === listMessage[0].conversationId && data.message) {
           setListMessage((prev) => {
             const newData = [...prev, data.message] as IMessage[];

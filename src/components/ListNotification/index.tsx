@@ -10,6 +10,7 @@ import { handleErrorMessage } from '@/i18n';
 import { UserOutlined } from '@ant-design/icons';
 import { NotificationRedirectType, NotificationTargetType } from '@/connstant/enum/common';
 import { history } from '@/App';
+import icons from '@/assets/icons';
 interface INotification {
   id: number;
   title: string;
@@ -128,7 +129,7 @@ export default function ListNotification(params: { isRead: boolean | undefined; 
             >
               <List.Item.Meta
                 style={{ padding: '5px 10px' }}
-                avatar={<Avatar src={item.createdBy?.avatar50x50} icon={<UserOutlined />} />}
+                avatar={<Avatar src={item.createdBy?.avatar50x50 ?? icons.HedLayer} icon={<UserOutlined />} />}
                 title={item.title}
                 description={
                   <>

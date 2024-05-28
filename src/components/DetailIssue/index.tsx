@@ -24,6 +24,7 @@ import socket from '@/utils/socket';
 import { ConversationEvent } from '@/utils/socket/socket.type';
 import 'quill-mention';
 import { uploadFile } from '@/api/client/upload';
+import icons from '@/assets/icons';
 
 const EditIssue = lazy(() => import('@/components/EditIssue'));
 
@@ -378,7 +379,7 @@ export default function IssueDetail({
       <div className={styles.issueBodyDetail}>
         <div>
           <div style={{ display: 'flex' }}>
-            <Avatar size={40} src={issueDetail?.data?.created?.avatar50x50} />
+            <Avatar size={40} src={issueDetail?.data?.created?.avatar50x50 ?? icons.HedLayer} />
             <div style={{ marginLeft: '10px' }}>
               <div style={{ fontSize: '1.6rem', fontWeight: '600' }}>{issueDetail?.data?.created?.name}</div>
               <div>Created {moment(issueDetail?.data?.createdAt).format('MMM. DD, YYYY HH:mm:ss')}</div>
@@ -409,7 +410,7 @@ export default function IssueDetail({
               <div>Assignee</div>
               {issueDetail?.data?.assignee && (
                 <div>
-                  <Avatar size={35} src={issueDetail?.data?.assignee?.avatar400x400} />
+                  <Avatar size={35} src={issueDetail?.data?.assignee?.avatar400x400 ?? icons.HedLayer} />
                   <span style={{ marginLeft: '10px', fontSize: '1.6rem', fontWeight: '600' }}>
                     {issueDetail?.data?.assignee?.name}
                   </span>
@@ -463,7 +464,7 @@ export default function IssueDetail({
                 renderItem={(item: any, index) => (
                   <List.Item>
                     <List.Item.Meta
-                      avatar={<Avatar size={35} src={item?.created?.avatar400x400} />}
+                      avatar={<Avatar size={35} src={item?.created?.avatar400x400 ?? icons.HedLayer} />}
                       title={
                         <div>
                           <p style={{ margin: '0px' }}>{item?.created?.name}</p>
@@ -517,7 +518,7 @@ export default function IssueDetail({
                 renderItem={(item: any, index) => (
                   <List.Item>
                     <List.Item.Meta
-                      avatar={<Avatar src={item.user.avatar50x50} />}
+                      avatar={<Avatar src={item.user.avatar50x50 ?? icons.HedLayer} />}
                       title={
                         <div>
                           <p style={{ margin: '0px' }}>{item.user.name || item.user.email}</p>

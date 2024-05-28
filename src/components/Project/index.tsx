@@ -9,6 +9,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useParams } from 'react-router-dom';
 import styles from './styles.module.scss';
+import icons from '@/assets/icons';
 export interface DataIssueHistory {
   id: number;
   issueId: number;
@@ -245,7 +246,7 @@ export default function Project() {
               renderItem={(item) => (
                 <List.Item key={item.created.name}>
                   <List.Item.Meta
-                    avatar={<Avatar src={item.created.avatar50x50} />}
+                    avatar={<Avatar src={item.created.avatar50x50 ?? icons.HedLayer} />}
                     title={titleIssueHistory(item.type, item.created.name, item.id)}
                     description={
                       <>
