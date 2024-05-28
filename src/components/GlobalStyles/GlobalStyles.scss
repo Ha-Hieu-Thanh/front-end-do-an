@@ -1,0 +1,74 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+.ant-dropdown {
+  position: fixed;
+}
+:root {
+  color: #282828;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  margin: 0px;
+  background-color: #f0f0f0;
+  // overflow-x: scroll;
+  // overflow-y: visible;
+}
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 10px;
+  height: 45px;
+  border: 1px solid #969494;
+  outline: none;
+  &:hover,
+  &:active {
+    box-shadow: 0 0 10px #c3c3c3;
+  }
+  min-width: 100px;
+  padding: 0 20px;
+  & + .btn {
+    margin-left: 20px;
+  }
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.btn-green {
+  background: #4caf93;
+  border-color: #a5d3af;
+  color: #fff;
+  &:hover {
+    box-shadow: 0 0 10px #a5d3af;
+  }
+}
+
+.btn-black {
+  background: #192421;
+  border-color: #253531;
+  color: #fff;
+  &:hover {
+    box-shadow: 0 0 10px #253531;
+  }
+}
+
+.ql-editor {
+  font-size: 16px; /* Kích thước font mặc định lớn */
+}
+
+.ql-container.ql-bubble.ql-disabled {
+  // height: 50px !important;
+}

@@ -1,0 +1,44 @@
+.textLeft {
+  justify-content: left;
+}
+.textCenter {
+  justify-content: center;
+}
+.textRight {
+  justify-content: right;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  :global {
+    .ant-pagination-item {
+      margin: 0;
+      border-radius: 8px;
+      background: #d6d6d6;
+      border: 0.5px solid #d6d6d6;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      a {
+        color: black;
+      }
+      &.ant-pagination-item-active {
+        background-color: #2c9a7a;
+        color: #ffffff;
+        a {
+          color: black;
+        }
+      }
+      &:hover {
+        color: #2c9a7a !important;
+        color: white !important;
+      }
+    }
+  }
+}

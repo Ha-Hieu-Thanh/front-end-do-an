@@ -1,0 +1,94 @@
+.projectBoard {
+  margin: 0px 32px 32px 32px;
+  padding-top: 20px;
+  .projectBoardLeft {
+
+    h4 {
+      font-size: 1.4rem;
+      line-height: 2.1rem;
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .issueHistoryTitle {
+      .issueHistorySpan {
+        line-height: 1.8rem;
+        span {
+          margin-right: 5px;
+          font-size: 1.3rem;
+          &:first-child {
+            font-weight: 600;
+          }
+        }
+        .issueHistoryMain {
+          background-color: #4caf93 !important;
+          color: #ffffff !important;
+          border-radius: 20px;
+          font-size: 1.2rem;
+          margin: -1px 4px 0;
+          padding: 2px 5px;
+          line-height: 1.7rem;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  .projectBoardRight {
+    h4 {
+      font-size: 1.4rem;
+      line-height: 2.1rem;
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .projectBoardState,
+    .projectBoardType,
+    .projectIssueCategories,
+    .projectVersions {
+      padding: 18px;
+      background-color: #ffffff;
+      border: 1px solid #e0d8d8;
+      p {
+        margin-bottom: 5px;
+        text-align: center;
+        font-size: 1.2rem;
+      }
+      .boardStateItem,
+      .boardTypeItem {
+        div {
+          min-width: 80px;
+          border-radius: 20px;
+          color: #ffffff;
+          text-align: center;
+        }
+      }
+
+      .issueCategory,
+      .issueVersion {
+        a {
+          color: #00836b;
+          font-size: 1.3rem;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+        border-bottom: solid 1px #bdbdbd;
+        margin-bottom: 10px;
+        .issueCategoryGraph {
+          margin-bottom: 15px;
+          margin-top: 5px !important;
+        }
+        .issueVersionGraph {
+          margin-bottom: 15px;
+          margin-top: 5px !important;
+        }
+      }
+    }
+    .boardStateGraph,
+    .boardTypeGraph {
+      display: flex;
+      div {
+        height: 100%;
+      }
+    }
+  }
+}

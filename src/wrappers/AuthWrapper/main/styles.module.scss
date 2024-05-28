@@ -1,0 +1,16 @@
+.main {
+  position: relative;
+  top: 57px;
+  // overflow: auto;
+  margin: 0px;
+  display: flex;
+  .mainWrapper {
+    position: relative;
+    margin-left: 190px;
+    width: 90vw;
+    .pageContent {
+      margin-top: 5vh;
+      box-sizing: border-box;
+    }
+  }
+}

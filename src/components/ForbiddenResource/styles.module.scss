@@ -1,0 +1,33 @@
+.comingSoon {
+  color: #fff;
+  font-family: 'Roboto Condensed', sans-serif;
+  background-image: url('https://aml-maru.s3.amazonaws.com/1694427774259-acd686ede2c9f4331a179f37b236095c.jpg');
+  background-position: top top;
+  background-size: cover;
+  margin: 0;
+  min-height: 100vh;
+
+  .bodyComingSoon {
+    display: flex;
+    text-align: center;
+    // background: rgb(76, 175, 147);
+    background: linear-gradient(
+      0deg,
+      rgba(49, 49, 177, 0.9) 0%,
+      rgba(49, 49, 177, 0.6) 50%,
+      rgba(49, 49, 177, 0.4) 100%
+    );
+    .container {
+      width: 100%;
+      height: 100%;
+      h1 {
+        font-size: 50px;
+        text-transform: uppercase;
+        line-height: 1;
+        height: 100vh;
+        margin: 0px;
+        padding-top: 45vh;
+      }
+    }
+  }
+}

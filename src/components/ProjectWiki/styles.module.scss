@@ -1,0 +1,22 @@
+.dashboardProjectWiki {
+  height: auto;
+  //   background-color: #ffffff;
+  padding: 30px;
+  .dashboardProjectWikiRight {
+    li {
+      cursor: pointer;
+      font-weight: 600;
+      margin: 0px;
+      padding: 5px 10px;
+      p {
+        margin: 0px;
+      }
+      &:hover {
+        background-color: rgba(var(--red, 57), var(--green, 57), var(--blue, 57), 0.12);
+      }
+    }
+    .itemWikiActive {
+      background-color: rgba(var(--red, 57), var(--green, 57), var(--blue, 57), 0.12);
+    }
+  }
+}

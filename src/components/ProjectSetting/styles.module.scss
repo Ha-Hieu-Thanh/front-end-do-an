@@ -1,0 +1,19 @@
+.dashboardProjectSetting {
+  .mainDashboardProjectSetting {
+    position: relative;
+    overflow: auto;
+    left: 190px;
+    max-width: calc(100vw - 397px);
+    // background-color: red;
+    overflow: hidden;
+    background-color: #ffffff;
+    .settingContent {
+      max-width: calc(100vw - 397px);
+      // background-color: blue;
+      overflow-y: hidden;
+      // display: flex;
+      // flex-wrap: wrap-reverse;
+      // height: calc(100vw - 380px);
+    }
+  }
+}

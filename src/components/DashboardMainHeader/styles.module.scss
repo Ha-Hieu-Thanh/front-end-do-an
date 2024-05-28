@@ -1,0 +1,27 @@
+.dashboardMainHeader {
+  position: fixed;
+  height: 5vh;
+  background-color: #ffffff;
+  width: calc(100% - 190px);
+  border-bottom: 1px solid #b8b8b8;
+  box-sizing: content-box;
+  display: flex;
+  justify-content: space-between;
+  overflow: auto;
+  z-index: 1;
+  .dashboardMainLeft {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    p:first-child {
+      font-weight: 700;
+      margin-right: 10px;
+      line-height: 2.8rem;
+      font-size: 1.3rem;
+    }
+    p:last-child {
+      font-size: 1rem;
+
+    }
+  }
+}

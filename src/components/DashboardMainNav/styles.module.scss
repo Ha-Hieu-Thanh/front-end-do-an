@@ -1,0 +1,44 @@
+.main {
+  .mainNav {
+    height: 100vh;
+    width: auto !important;
+    position: fixed;
+    width: 190px !important;
+    background-color: #4caf93;
+    z-index: 1;
+  }
+
+  :global {
+    .ant-menu {
+      transition: none !important;
+    }
+
+    .ant-menu-light.ant-menu-inline .ant-menu-item {
+      margin: 0px 0px !important;
+      height: 5vh !important;
+      box-sizing: border-box;
+      width: 190px;
+      border-radius: 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #ffffff;
+
+      &:hover,
+      &:active {
+        color: #2c9a7a !important;
+        background-color: #f0f0f0 !important;
+        border-radius: 0;
+        width: 190px;
+      }
+    }
+    .ant-menu .ant-menu-item .anticon {
+      font-size: 20px;
+    }
+    .ant-menu-light .ant-menu-item-selected {
+      color: #2c9a7a !important;
+      background-color: #f0f0f0 !important;
+      border-radius: 0;
+      width: 190px;
+    }
+  }
+}
