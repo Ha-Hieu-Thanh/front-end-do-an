@@ -147,6 +147,7 @@ export default function ProjectSettingMembers() {
                     setOpenUpdateStaff({ isOpen: true, record });
                     form.setFieldsValue({
                       role: record?.role,
+                      categoryIds: record.user.categoryIds,
                     });
                     setRoleUpdateSelecting(record?.role);
                   }}
