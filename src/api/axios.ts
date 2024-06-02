@@ -23,9 +23,8 @@ const processQueue = (error: any, token: string | null | undefined = null) => {
 };
 
 export const assignBaseUrlClient = (url?: string): string => {
-  return `${configs.API_DOMAIN_CLIENT}/${url}`;
+  return `${configs.API_DOMAIN}/${url}`;
 };
-
 
 export const handleApiRefreshTokenByUrl = (url: string): string => {
   if (url.includes(assignBaseUrlClient(''))) {

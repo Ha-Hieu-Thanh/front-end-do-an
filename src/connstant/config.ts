@@ -1,6 +1,6 @@
 const configs = {
   APP_ENV: process.env.REACT_APP_ENV,
-  API_DOMAIN_CLIENT: process.env.REACT_APP_API_DOMAIN_CLIENT,
+  API_DOMAIN: process.env.REACT_APP_API_DOMAIN,
 };
 
 export default configs;
