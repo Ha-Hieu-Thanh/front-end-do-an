@@ -1,18 +1,18 @@
 import { ClientLoginType } from '@/connstant/enum/common';
-import { assignBaseUrlClient, sendPost } from '../axios';
+import { assignBaseUrl, sendPost } from '../axios';
 
 export const clientLogin = (payload: IClientLogin): Promise<IClientLoginResponse> =>
-  sendPost(assignBaseUrlClient('auth/login'), payload);
+  sendPost(assignBaseUrl('auth/login'), payload);
 export const clientRegister = (payload: IClientRegister): Promise<any> =>
-  sendPost(assignBaseUrlClient('auth/register'), payload);
+  sendPost(assignBaseUrl('auth/register'), payload);
 export const clientForgotPassword = (payload: IClientForgotPassword): Promise<any> =>
-  sendPost(assignBaseUrlClient('auth/forgot-password'), payload);
+  sendPost(assignBaseUrl('auth/forgot-password'), payload);
 export const clientConfirmForgotPassword = (payload: IClientConfirmForgotPassword): Promise<any> =>
-  sendPost(assignBaseUrlClient('auth/confirm-forgot-password'), payload);
+  sendPost(assignBaseUrl('auth/confirm-forgot-password'), payload);
 export const verifyRegister = (payload: IClientVerifyRegister): Promise<any> =>
-  sendPost(assignBaseUrlClient('auth/verify-register'), payload);
+  sendPost(assignBaseUrl('auth/verify-register'), payload);
 export const clientChangePassword = (payload: IClientChangePassword) =>
-  sendPost(assignBaseUrlClient('auth/change-password'), payload);
+  sendPost(assignBaseUrl('auth/change-password'), payload);
 
 // export const contact = (payload: IContact) => sendPost(assignBaseUrlCommon('contact'), payload);
 

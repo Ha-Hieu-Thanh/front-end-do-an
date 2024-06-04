@@ -1,7 +1,8 @@
 import { getIssueDetail } from '@/api/client/project';
 import icons from '@/assets/icons';
-import { UserProjectRole } from '@/connstant/enum/common';
+import { UserProjectRole, UserRole } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
+import useProfileClient from '@/utils/hooks/useProfileClient';
 import { FireTwoTone, UserOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@xstyled/styled-components';
@@ -68,6 +69,7 @@ export const TitleIssueDetail = styled.divBox`
 `;
 
 export default function Task(props: any) {
+  const { profile } = useProfileClient(true);
   const [openDetailIssue, setOpenDetailIssue] = useState(false);
 
   const showModalDetailIssue = useCallback(() => {
@@ -78,6 +80,7 @@ export default function Task(props: any) {
   }, []);
 
   const isEdit =
+    [UserRole.ADMIN].includes(profile?.role) ||
     ([UserProjectRole.SUB_PM].includes(props.project?.userProject?.role) &&
       props.project?.userProject?.categoryIds?.includes(props.task.projectIssueCategory.id)) ||
     [UserProjectRole.PM].includes(props.project?.userProject?.role) ||

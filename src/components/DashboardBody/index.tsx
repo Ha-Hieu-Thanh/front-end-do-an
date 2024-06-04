@@ -8,14 +8,22 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { DownOutlined } from '@ant-design/icons';
 import queryKeys from '@/connstant/queryKeys';
-import { IssueHistoryType, UserProjectStatus } from '@/connstant/enum/common';
+import { IssueHistoryType, UserProjectStatus, UserRole } from '@/connstant/enum/common';
 import { history } from '@/App';
 import { handleSuccessMessage } from '@/utils/helper/common';
 import { handleErrorMessage } from '@/i18n';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { DataIssueHistory } from '../Project';
 import Cookies from 'js-cookie';
+import useProfileClient from '@/utils/hooks/useProfileClient';
 function DashboardBody() {
+  const { profile } = useProfileClient(true);
+  useEffect(() => {
+    if (profile && profile.role !== UserRole.CLIENT) {
+      history.push('/forbidden-resource');
+    }
+  }, [profile]);
+
   Cookies.remove('projectId');
   const [pageIndexProjects, setPageIndexProjects] = useState(1);
   const [projects, setProjects] = useState<any>([]);

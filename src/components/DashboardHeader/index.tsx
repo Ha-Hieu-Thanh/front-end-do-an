@@ -2,7 +2,7 @@ import { history } from '@/App';
 import { IClientChangePassword, clientChangePassword } from '@/api/client/auth';
 import { confirmJoinProject, createMyProjects, getCountNotificationUnread, getMyProjects } from '@/api/client/project';
 import icons from '@/assets/icons';
-import { LabelDefault, MenuKey, Message, UserProjectRole, UserProjectStatus } from '@/connstant/enum/common';
+import { LabelDefault, MenuKey, Message, UserProjectRole, UserProjectStatus, UserRole } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
 import { handleErrorMessage } from '@/i18n';
 import { handleSuccessMessage, logout } from '@/utils/helper/common';
@@ -250,6 +250,20 @@ export default function DashboardHeader() {
     //   className: `${styles.dashAddUser}`,
     // },
   ];
+
+  const itemDashAdmin: MenuProps['items'] = [
+    {
+      key: 'USER_MANAGEMENT',
+      label: <p>User Management</p>,
+      onClick: () => history.push('/admin/user-management'),
+    },
+    {
+      key: 'PROJECT_MANAGEMENT',
+      label: <p>Project Management</p>,
+      onClick: () => history.push('/admin/project-management'),
+    },
+  ];
+
   itemDashProjects.unshift(
     {
       key: 'DEFAULT',
@@ -382,7 +396,7 @@ export default function DashboardHeader() {
     });
   }
 
-  const menuItemsLeft: MenuProps['items'] = [
+  const menuItemsLeftClient: MenuProps['items'] = [
     {
       key: 'DASH_ICON_MAIN',
       icon: <img src={icons.Logo} alt="company-icon" className={styles.companyIcon}></img>,
@@ -390,7 +404,7 @@ export default function DashboardHeader() {
     },
     {
       key: 'DASH_BOARD',
-      label: <Link to={'/'}>Dashboard</Link>,
+      label: <Link to={'/dashboard'}>Dashboard</Link>,
     },
     {
       key: 'DASH_PROJECTS',
@@ -424,6 +438,32 @@ export default function DashboardHeader() {
       ),
     },
   ];
+  const menuItemsLeftAdmin: MenuProps['items'] = [
+    {
+      key: 'DASH_ICON_MAIN',
+      icon: <img src={icons.Logo} alt="company-icon" className={styles.companyIcon}></img>,
+      label: <Link to={'/'}></Link>,
+    },
+    // {
+    //   key: 'DASH_ADMIN',
+    //   disabled: profile && profile.role !== UserRole.ADMIN,
+    //   label:
+    //     profile && profile.role !== UserRole.ADMIN ? (
+    //       <></>
+    //     ) : (
+    //       <Dropdown
+    //         menu={{
+    //           items: itemDashAdmin,
+    //         }}
+    //         trigger={['click']}
+    //       >
+    //         <div>Admin</div>
+    //       </Dropdown>
+    //     ),
+    // },
+    ...itemDashAdmin,
+  ];
+
   const itemsDashUser: MenuProps['items'] = [
     {
       key: 'DEFAULT',
@@ -505,7 +545,11 @@ export default function DashboardHeader() {
     <div className={styles.dashboardHeader} ref={(e) => (containerRef.current = e)}>
       <div className={styles.dashboardMenu}>
         <div className={styles.leftDashboardMenu}>
-          <Menu mode="horizontal" items={menuItemsLeft} />
+          {profile && profile.role === UserRole.CLIENT ? (
+            <Menu mode="horizontal" items={menuItemsLeftClient} style={{ minWidth: '800px' }} />
+          ) : (
+            <Menu mode="horizontal" items={menuItemsLeftAdmin} />
+          )}
         </div>
         <div className={styles.rightDashboardMenu}>
           <div className={styles.rightMenuItem}>

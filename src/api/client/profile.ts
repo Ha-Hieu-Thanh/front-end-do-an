@@ -1,8 +1,8 @@
-import { Gender } from '@/connstant/enum/common';
-import { assignBaseUrlClient, sendGet, sendPatch } from '../axios';
+import { Gender, UserRole } from '@/connstant/enum/common';
+import { assignBaseUrl, sendGet, sendPatch } from '../axios';
 
-export const getMyProfile = (): Promise<IMyProfileClient> => sendGet(assignBaseUrlClient('profile/my-profile'));
-export const updateMyProfile = (params: IUpdateMyProfile) => sendPatch(assignBaseUrlClient('profile/update'), params);
+export const getMyProfile = (): Promise<IMyProfileClient> => sendGet(assignBaseUrl('profile/my-profile'));
+export const updateMyProfile = (params: IUpdateMyProfile) => sendPatch(assignBaseUrl('profile/update'), params);
 
 export interface IUpdateMyProfile {
   avatar?: string;
@@ -14,7 +14,6 @@ export interface IUpdateMyProfile {
 }
 export interface IMyProfileClient {
   id: number;
-  lastCompanyId: number;
   name: string;
   gender: Gender;
   address: string;
@@ -22,6 +21,7 @@ export interface IMyProfileClient {
   email: string;
   phone: string;
   avatar: string;
+  role: UserRole;
   avatar50x50: string;
   avatar400x400: string;
   origin: string;

@@ -56,6 +56,11 @@ export enum MenuKey {
   CHANGE_PASSWORD = 8,
 }
 
+export enum UserRole {
+  ADMIN = 1,
+  CLIENT = 2,
+}
+
 export enum UserProjectRole {
   PM = 1,
   SUB_PM = 2,
@@ -108,6 +113,13 @@ export const TextPriority = {
   [Priority.NORMAL]: 'Normal',
   [Priority.HIGH]: 'High',
 };
+
+export enum UserStatus {
+  ACTIVE = 1,
+  BLOCKED = 2,
+  PENDING = 3,
+}
+
 export enum UserProjectStatus {
   IN_ACTIVE = 1,
   ACTIVE = 2,

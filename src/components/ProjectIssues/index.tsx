@@ -15,6 +15,7 @@ import {
   TextPriority,
   UserProjectRole,
   UserProjectStatus,
+  UserRole,
 } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
 import useProfileClient from '@/utils/hooks/useProfileClient';
@@ -507,8 +508,9 @@ export default function DashboardProjectIssues() {
                 onClick: () => {
                   setIssueId(record.id);
                   setIsEdit(
-                    ([UserProjectRole.SUB_PM].includes(userProject.role) &&
-                      userProject.categoryIds?.includes(record.projectIssueCategory.id)) ||
+                    [UserRole.ADMIN].includes(profile?.role) ||
+                      ([UserProjectRole.SUB_PM].includes(userProject.role) &&
+                        userProject.categoryIds?.includes(record.projectIssueCategory.id)) ||
                       [UserProjectRole.PM].includes(userProject.role) ||
                       record.createdBy === profile.id ||
                       record.assigneeId === profile.id,

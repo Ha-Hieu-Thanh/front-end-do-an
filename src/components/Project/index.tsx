@@ -168,8 +168,8 @@ export default function Project() {
         <div className={styles.issueHistoryTitle}>
           <span className={styles.issueHistorySpan}>
             <span>{name}</span>
-            <span style={{ fontWeight: '600' }}>added a new</span>
-            <span className={styles.issueHistoryMain}>issue</span>
+            <span className={styles.issueHistoryMain}>created</span>
+            <span style={{ fontWeight: '600' }}> new issue</span>
           </span>
         </div>
       );

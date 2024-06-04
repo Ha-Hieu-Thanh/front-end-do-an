@@ -22,15 +22,15 @@ const processQueue = (error: any, token: string | null | undefined = null) => {
   failedQueue = [];
 };
 
-export const assignBaseUrlClient = (url?: string): string => {
+export const assignBaseUrl = (url?: string): string => {
   return `${configs.API_DOMAIN}/${url}`;
 };
 
 export const handleApiRefreshTokenByUrl = (url: string): string => {
-  if (url.includes(assignBaseUrlClient(''))) {
-    return assignBaseUrlClient('auth/request-access-token');
+  if (url.includes(assignBaseUrl(''))) {
+    return assignBaseUrl('auth/request-access-token');
   }
-  return assignBaseUrlClient('');
+  return assignBaseUrl('');
 };
 
 axiosInstance.interceptors.request.use(

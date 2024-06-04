@@ -16,6 +16,7 @@ import EditOutlined from './EditOutlined.svg';
 import PrevPinkOutlined from './PrevPinkOutlined.svg';
 import NextPinkOutlined from './NextPinkOutlined.svg';
 import Available from './check-circle.svg';
+import BkPhoto from './bkphoto.jpg';
 const icons = {
   Logo,
   Add,
@@ -35,6 +36,7 @@ const icons = {
   PrevPinkOutlined,
   NextPinkOutlined,
   Available,
+  BkPhoto,
 } as const;
 
 export default icons;

@@ -7,6 +7,8 @@ import AuthWrapper from '@wrappers/AuthWrapper';
 import Main from '@wrappers/AuthWrapper/main';
 import { lazy } from 'react';
 import { Route, Routes, useParams } from 'react-router-dom';
+// import Admin from '@/components/Admin';
+const Admin = lazy(() => import('@/components/Admin'));
 const ProjectSettingMembers = lazy(() => import('@/components/ProjectSettingMembers'));
 const ProjectSettingGeneral = lazy(() => import('@/components/ProjectSettingGeneral'));
 const Login = lazy(() => import('@pages/Login'));
@@ -26,6 +28,9 @@ const ProjectSettingIssueVersion = lazy(() => import('@/components/ProjectSettin
 const Profile = lazy(() => import('@/components/Profile'));
 const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const ConfirmForgotPasswordForm = lazy(() => import('@/pages/ConfirmForgotPassword'));
+const UserManagement = lazy(() => import('@/components/UserManagement'));
+const ProjectManagement = lazy(() => import('@/components/ProjectManagement'));
+const Welcome = lazy(() => import('@/components/Welcome'));
 
 export default function AppWrapper(): any {
   return (
@@ -38,9 +43,14 @@ export default function AppWrapper(): any {
         <Route path={routePaths.confirmForgotPassword} element={<ConfirmForgotPasswordForm />} />
         <Route path={routePaths.forbiddenResource} element={<ForbiddenResource />} />
         <Route path="/" element={<AuthWrapper />}>
-          <Route path="" element={<DashboardBody />}></Route>
+          <Route path="/" element={<Welcome />}></Route>
+          <Route path="/dashboard" element={<DashboardBody />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
-          {/* <Route path="/chat" element={<Chat />}></Route> */}
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin" element={<NotFound />} />
+            <Route path="/admin/user-management" element={<UserManagement />} />
+            <Route path="/admin/project-management" element={<ProjectManagement />} />
+          </Route>
           <Route path="/project/:projectId" element={<Main />}>
             <Route path="" element={<Project />}></Route>
             <Route path="/project/:projectId/add-issue" element={<DashboardProjectAddIssue />}></Route>

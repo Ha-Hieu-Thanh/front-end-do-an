@@ -12,7 +12,8 @@ import { Menu, MenuProps } from 'antd';
 import styles from './styles.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import useGetProjectDetail, { IDetailProject } from '@/utils/hooks/useGetDetailProject';
-import { UserProjectRole } from '@/connstant/enum/common';
+import { UserProjectRole, UserRole } from '@/connstant/enum/common';
+import useProfileClient from '@/utils/hooks/useProfileClient';
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
   key: React.Key,
@@ -30,6 +31,7 @@ function getItem(
 
 export default function DashboardMainNav({ projectId }: { projectId: number }) {
   const location = useLocation();
+  const { profile } = useProfileClient(true);
   const { data } = useGetProjectDetail();
   const project = data?.data as IDetailProject;
   const linkTo: any = {
@@ -61,7 +63,10 @@ export default function DashboardMainNav({ projectId }: { projectId: number }) {
     getItem(linkTo.wiki, <FileWordOutlined />, <Link to={linkTo.wiki}>Wiki</Link>),
   ];
 
-  if ([UserProjectRole.PM, UserProjectRole.SUB_PM].includes(project?.userProject?.role)) {
+  if (
+    [UserRole.ADMIN].includes(profile?.role) ||
+    [UserProjectRole.PM, UserProjectRole.SUB_PM].includes(project?.userProject?.role)
+  ) {
     items.push(
       getItem(linkTo.projectSettings, <SettingOutlined />, <Link to={linkTo.projectSettings}>Project Settings</Link>),
     );

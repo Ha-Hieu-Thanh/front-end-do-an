@@ -7,7 +7,8 @@ export default function useProfileClient(enabled = false): { profile: IMyProfile
     enabled,
   });
 
-  const profile = data?.data
+  const profile = data?.data;
+  console.log('profile in hook: ', profile);
 
   return { profile, refetchProfile };
 }

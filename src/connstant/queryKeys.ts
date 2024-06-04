@@ -16,6 +16,8 @@ const queryKeys = {
   listNotification: 'list-notification',
   countNotiUnread: 'count-noti-unread',
   projectIssueComment: 'project-issue-comment',
+  listUserInSystem: 'list-user-in-system',
+  listProjectInSystem: 'list-project-in-system',
 } as const;
 
 export default queryKeys;

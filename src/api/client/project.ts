@@ -8,108 +8,100 @@ import {
   UserProjectRole,
   UserProjectStatus,
 } from '@/connstant/enum/common';
-import { assignBaseUrlClient, sendGet, sendPatch, sendPost, sendPut } from '../axios';
+import { assignBaseUrl, sendGet, sendPatch, sendPost, sendPut } from '../axios';
 
 export const getMyProjects = (params?: IParamsGetMyProjects) =>
-  sendGet(assignBaseUrlClient('project/get-my-projects'), params);
+  sendGet(assignBaseUrl('project/get-my-projects'), params);
 
 export const createMyProjects = (payload: IPayloadCreateMyProjects) =>
-  sendPost(assignBaseUrlClient('project/create'), payload);
+  sendPost(assignBaseUrl('project/create'), payload);
 
-export const generateKey = (payload: { name?: string }) =>
-  sendPost(assignBaseUrlClient('project/generate-key'), payload);
+export const generateKey = (payload: { name?: string }) => sendPost(assignBaseUrl('project/generate-key'), payload);
 
 export const confirmJoinProject = (payload: { status: UserProjectStatus; projectId: number }) =>
-  sendPatch(assignBaseUrlClient('project/confirm-request-join-project'), payload);
+  sendPatch(assignBaseUrl('project/confirm-request-join-project'), payload);
 
-export const getProjectDetail = () => sendGet(assignBaseUrlClient('project/detail'));
+export const getProjectDetail = () => sendGet(assignBaseUrl('project/detail'));
 
 export const updateMyProjects = (payload: IPayloadUpdateMyProjects) =>
-  sendPatch(assignBaseUrlClient('project/update'), payload);
+  sendPatch(assignBaseUrl('project/update'), payload);
 
-export const addMemberProject = (payload: IAddMemberProject) =>
-  sendPost(assignBaseUrlClient('project/member/add'), payload);
+export const addMemberProject = (payload: IAddMemberProject) => sendPost(assignBaseUrl('project/member/add'), payload);
 
-export const membersProject = (params: IFilterStaff) => sendGet(assignBaseUrlClient('project/member/list'), params);
+export const membersProject = (params: IFilterStaff) => sendGet(assignBaseUrl('project/member/list'), params);
 
 export const projectIssueCategory = (params: IFilterStaff) =>
-  sendGet(assignBaseUrlClient('project/issue-category/list'), params);
+  sendGet(assignBaseUrl('project/issue-category/list'), params);
 
-export const projectIssueState = (params: IFilterStaff) =>
-  sendGet(assignBaseUrlClient('project/issue-state/list'), params);
+export const projectIssueState = (params: IFilterStaff) => sendGet(assignBaseUrl('project/issue-state/list'), params);
 
-export const projectIssueTypes = (params?: any) => sendGet(assignBaseUrlClient('project/issue-type/list'), params);
+export const projectIssueTypes = (params?: any) => sendGet(assignBaseUrl('project/issue-type/list'), params);
 
-export const projectVersion = (params: IFilterStaff) => sendGet(assignBaseUrlClient('project/version/list'), params);
+export const projectVersion = (params: IFilterStaff) => sendGet(assignBaseUrl('project/version/list'), params);
 
-export const addProjectIssue = (payload: IAddProjectIssue) =>
-  sendPost(assignBaseUrlClient('project/issue/create'), payload);
+export const addProjectIssue = (payload: IAddProjectIssue) => sendPost(assignBaseUrl('project/issue/create'), payload);
 
 export const getProjectIssueHistory = (params?: IParamsProjectIssueHistory) =>
-  sendGet(assignBaseUrlClient('project/issue/history'), params);
+  sendGet(assignBaseUrl('project/issue/history'), params);
 
 export const updateIssueType = (payload: IPayloadUpdateIssueType) =>
-  sendPatch(assignBaseUrlClient('project/issue-type/update'), payload);
+  sendPatch(assignBaseUrl('project/issue-type/update'), payload);
 
-export const addIssueType = (payload: IAddIssueType) =>
-  sendPost(assignBaseUrlClient('project/issue-type/create'), payload);
+export const addIssueType = (payload: IAddIssueType) => sendPost(assignBaseUrl('project/issue-type/create'), payload);
 
 export const updateIssueState = (payload: IPayloadUpdateIssueState) =>
-  sendPatch(assignBaseUrlClient('project/issue-state/update'), payload);
+  sendPatch(assignBaseUrl('project/issue-state/update'), payload);
 
 export const addIssueState = (payload: IAddIssueState) =>
-  sendPost(assignBaseUrlClient('project/issue-state/create'), payload);
+  sendPost(assignBaseUrl('project/issue-state/create'), payload);
 
-export const projectIssueCategories = (params?: any) =>
-  sendGet(assignBaseUrlClient('project/issue-category/list'), params);
+export const projectIssueCategories = (params?: any) => sendGet(assignBaseUrl('project/issue-category/list'), params);
 
 export const addIssueCategory = (payload: IAddIssueCategory) =>
-  sendPost(assignBaseUrlClient('project/issue-category/create'), payload);
+  sendPost(assignBaseUrl('project/issue-category/create'), payload);
 
 export const updateIssueCategories = (payload: IPayloadUpdateIssueCategory) =>
-  sendPatch(assignBaseUrlClient('project/issue-category/update'), payload);
+  sendPatch(assignBaseUrl('project/issue-category/update'), payload);
 
-export const projectIssueVersion = (params?: any) => sendGet(assignBaseUrlClient('project/version/list'), params);
+export const projectIssueVersion = (params?: any) => sendGet(assignBaseUrl('project/version/list'), params);
 
 export const addIssueVersion = (payload: IAddIssueVersion) =>
-  sendPost(assignBaseUrlClient('project/version/create'), payload);
+  sendPost(assignBaseUrl('project/version/create'), payload);
 
 export const updateIssueVersion = (payload: IPayloadUpdateIssueCategory) =>
-  sendPatch(assignBaseUrlClient('project/version/update'), payload);
+  sendPatch(assignBaseUrl('project/version/update'), payload);
 
-export const projectIssueList = (params: IFilterIssue) => sendGet(assignBaseUrlClient('project/issue/list'), params);
+export const projectIssueList = (params: IFilterIssue) => sendGet(assignBaseUrl('project/issue/list'), params);
 export const projectUpdateIssue = (issueId: number, payload: IUpdateIssue) =>
-  sendPatch(assignBaseUrlClient(`project/issue/update/${issueId}`), payload);
+  sendPatch(assignBaseUrl(`project/issue/update/${issueId}`), payload);
 
 export const getIssueDetail = (issueId: number): Promise<{ data: issueDetail }> =>
-  sendGet(assignBaseUrlClient(`project/issue/detail/${issueId}`));
+  sendGet(assignBaseUrl(`project/issue/detail/${issueId}`));
 
 export const updateIssue = (issueId: number, payload: IPayloadUpdateIssue) =>
-  sendPatch(assignBaseUrlClient(`project/issue/update/${issueId}`), payload);
+  sendPatch(assignBaseUrl(`project/issue/update/${issueId}`), payload);
 
-export const updateStaff = (payload: IUpdateStaff) => sendPatch(assignBaseUrlClient(`project/member/update`), payload);
+export const updateStaff = (payload: IUpdateStaff) => sendPatch(assignBaseUrl(`project/member/update`), payload);
 
-export const getListWikiProject = (params: IListWikiProject) =>
-  sendGet(assignBaseUrlClient('project/wiki/list'), params);
+export const getListWikiProject = (params: IListWikiProject) => sendGet(assignBaseUrl('project/wiki/list'), params);
 
-export const addWikiProject = (payload: IAddWikiProject) =>
-  sendPost(assignBaseUrlClient('project/wiki/create'), payload);
+export const addWikiProject = (payload: IAddWikiProject) => sendPost(assignBaseUrl('project/wiki/create'), payload);
 
 export const updateWikiProject = (wikiId: number, payload: IAddWikiProject) =>
-  sendPut(assignBaseUrlClient(`project/wiki/update/${wikiId}`), payload);
+  sendPut(assignBaseUrl(`project/wiki/update/${wikiId}`), payload);
 
 export const getListNotification = (params?: IParamsListNotification) =>
-  sendGet(assignBaseUrlClient('app/list-notification'), params);
+  sendGet(assignBaseUrl('app/list-notification'), params);
 
-export const getCountNotificationUnread = () => sendGet(assignBaseUrlClient('app/count-notification-unread'));
+export const getCountNotificationUnread = () => sendGet(assignBaseUrl('app/count-notification-unread'));
 export const readNotification = (payload: IPayloadReadNotification) =>
-  sendPost(assignBaseUrlClient('app/read-notification'), payload);
+  sendPost(assignBaseUrl('app/read-notification'), payload);
 
 export const getProjectIssueComment = (issueId: number, params?: IParamsListComment) =>
-  sendGet(assignBaseUrlClient(`comment/${issueId}`), params);
+  sendGet(assignBaseUrl(`comment/${issueId}`), params);
 
 export const createProjectIssueComment = (issueId: number, payload: IPayloadCreateProjectIssueComment) =>
-  sendPost(assignBaseUrlClient(`comment/${issueId}`), payload);
+  sendPost(assignBaseUrl(`comment/${issueId}`), payload);
 
 export interface IPayloadCreateProjectIssueComment {
   content?: string;
