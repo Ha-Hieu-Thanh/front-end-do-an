@@ -506,14 +506,14 @@ export default function DashboardProjectIssues() {
             onRow={(record) => {
               return {
                 onClick: () => {
-                  setIssueId(record.id);
+                  setIssueId(record?.id);
                   setIsEdit(
                     [UserRole.ADMIN].includes(profile?.role) ||
-                      ([UserProjectRole.SUB_PM].includes(userProject.role) &&
-                        userProject.categoryIds?.includes(record.projectIssueCategory.id)) ||
-                      [UserProjectRole.PM].includes(userProject.role) ||
-                      record.createdBy === profile.id ||
-                      record.assigneeId === profile.id,
+                      ([UserProjectRole.SUB_PM].includes(userProject?.role) &&
+                        userProject.categoryIds?.includes(record.projectIssueCategory?.id)) ||
+                      [UserProjectRole.PM].includes(userProject?.role) ||
+                      record.createdBy === profile?.id ||
+                      record.assigneeId === profile?.id,
                   );
                   showModalDetailIssue();
                   refetchDetailIssue();

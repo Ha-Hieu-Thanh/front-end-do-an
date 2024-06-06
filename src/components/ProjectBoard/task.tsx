@@ -82,7 +82,7 @@ export default function Task(props: any) {
   const isEdit =
     [UserRole.ADMIN].includes(profile?.role) ||
     ([UserProjectRole.SUB_PM].includes(props.project?.userProject?.role) &&
-      props.project?.userProject?.categoryIds?.includes(props.task.projectIssueCategory.id)) ||
+      props.project?.userProject?.categoryIds?.includes(props?.task?.projectIssueCategory?.id)) ||
     [UserProjectRole.PM].includes(props.project?.userProject?.role) ||
     props.userId === props.task.createdBy ||
     props.userId === props.task.assigneeId;
