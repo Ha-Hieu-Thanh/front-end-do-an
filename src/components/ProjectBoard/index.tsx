@@ -48,6 +48,7 @@ export enum ChangeFillType {
   CATEGORY = 2,
   VERSION = 3,
   ASSIGNEE = 4,
+  SORT_FIELD = 5,
 }
 export interface ITask {
   id: number;

@@ -262,6 +262,7 @@ export interface IFilterIssue {
   assigneeId?: number;
   isGetAll?: boolean;
   isCreated?: boolean;
+  sortField?: string;
 }
 export interface IPayloadCreateMyProjects {
   name: string;

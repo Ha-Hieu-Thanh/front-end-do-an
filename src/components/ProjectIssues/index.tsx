@@ -72,10 +72,11 @@ export default function DashboardProjectIssues() {
 
   const [statesSearch, setStatesSearch] = useState<IStatesSearch[]>([]);
   const [stateIds, setStateIds] = useState<number[]>([]);
-  const [assigneeId, setAssigneeId] = useState<ChangeFillType | undefined>(undefined);
-  const [typeId, setTypeId] = useState<ChangeFillType | undefined>(undefined);
-  const [categoryId, setCategoryId] = useState<ChangeFillType | undefined>(undefined);
-  const [versionId, setVersionId] = useState<ChangeFillType | undefined>(undefined);
+  const [assigneeId, setAssigneeId] = useState<number | undefined>(undefined);
+  const [typeId, setTypeId] = useState<number | undefined>(undefined);
+  const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
+  const [versionId, setVersionId] = useState<number | undefined>(undefined);
+  const [sortField, setSortField] = useState<string | undefined>(undefined);
   const [keyword, setKeyword] = useState<string | null>(null);
   const [filterIssues, setFilterIssues] = useState<IFilterIssue>(initialFilterIssue);
   const [openDetailIssue, setOpenDetailIssue] = useState(issueIdFromParam ? true : false);
@@ -140,9 +141,20 @@ export default function DashboardProjectIssues() {
       stateIds,
       filterIssues,
       isCreated,
+      sortField,
     ],
     queryFn: () =>
-      projectIssueList({ keyword, typeId, categoryId, versionId, assigneeId, isCreated, stateIds, ...filterIssues }),
+      projectIssueList({
+        keyword,
+        typeId,
+        categoryId,
+        versionId,
+        assigneeId,
+        isCreated,
+        stateIds,
+        sortField,
+        ...filterIssues,
+      }),
     keepPreviousData: true,
   });
 
@@ -204,7 +216,7 @@ export default function DashboardProjectIssues() {
   const handleMyCreated = () => {
     setsIsCreated(!isCreated);
   };
-  const onChange = (value: number, type: ChangeFillType) => {
+  const onChange = (value: any, type: ChangeFillType) => {
     switch (type) {
       case ChangeFillType.TYPE:
         setTypeId(value);
@@ -217,6 +229,9 @@ export default function DashboardProjectIssues() {
         break;
       case ChangeFillType.ASSIGNEE:
         setAssigneeId(value);
+        break;
+      case ChangeFillType.SORT_FIELD:
+        setSortField(value);
         break;
 
       default:
@@ -469,6 +484,69 @@ export default function DashboardProjectIssues() {
                 </div>
               ),
             }))}
+          />
+          <Select
+            showSearch
+            placeholder="Sort by"
+            optionFilterProp="children"
+            onChange={(value) => onChange(value, ChangeFillType.SORT_FIELD)}
+            allowClear
+            filterOption={(input, option: any) => {
+              return (option?.label.props.children[1].props.children ?? '').toLowerCase().includes(input.toLowerCase());
+            }}
+            style={{ width: 200, marginRight: '10px' }}
+            size={'middle'}
+            value={sortField}
+            options={[
+              {
+                value: 'typeId',
+                label: 'Issue Type',
+              },
+              {
+                value: 'categoryId',
+                label: 'Category',
+              },
+              {
+                value: 'versionId',
+                label: 'Version',
+              },
+              {
+                value: 'assigneeId',
+                label: 'Assignee',
+              },
+              {
+                value: 'stateId',
+                label: 'State',
+              },
+              {
+                value: 'priority',
+                label: 'Priority',
+              },
+              {
+                value: 'startDate',
+                label: 'Start Date',
+              },
+              {
+                value: 'dueDate',
+                label: 'Due Date',
+              },
+              {
+                value: 'estimatedHours',
+                label: 'Estimated Hours',
+              },
+              {
+                value: 'actualHours',
+                label: 'Actual Hours',
+              },
+              {
+                value: 'createdAt',
+                label: 'Created Time',
+              },
+              {
+                value: 'updatedAt',
+                label: 'Updated Time',
+              },
+            ]}
           />
           <Avatar
             icon={<UserOutlined />}

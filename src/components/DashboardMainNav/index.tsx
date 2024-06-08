@@ -72,10 +72,7 @@ export default function DashboardMainNav({ projectId }: { projectId: number }) {
   }, [] as any);
 
   useEffect(() => {
-    if (
-      [UserRole.ADMIN].includes(profile?.role) ||
-      [UserProjectRole.PM, UserProjectRole.SUB_PM].includes(project?.userProject?.role)
-    )
+    if ([UserRole.ADMIN].includes(profile?.role) || [UserProjectRole.PM].includes(project?.userProject?.role))
       setItems(itemsForAdmin);
     else setItems(itemsForClient);
   }, [profile, project]);
