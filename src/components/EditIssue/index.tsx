@@ -52,8 +52,8 @@ export default function EditIssue({
       priority: issueDetail?.data?.priority,
       categoryId: issueDetail?.data?.categoryId,
       versionId: issueDetail?.data?.versionId || null,
-      startDate: issueDetail?.data?.startDate ? dayjs(issueDetail?.data?.startDate, 'YYYY-MM-DD') : null,
-      dueDate: issueDetail?.data?.dueDate ? dayjs(issueDetail?.data?.dueDate, 'YYYY-MM-DD') : null,
+      startDate: issueDetail?.data?.startDate ? dayjs(issueDetail?.data?.startDate, 'YYYY-MM-DD HH:mm') : null,
+      dueDate: issueDetail?.data?.dueDate ? dayjs(issueDetail?.data?.dueDate, 'YYYY-MM-DD HH:mm') : null,
       estimatedHours: issueDetail?.data?.estimatedHours,
       actualHours: issueDetail?.data?.actualHours,
     });
@@ -61,10 +61,10 @@ export default function EditIssue({
 
   const handleSubmitUpdateIssue = (payload: IPayloadUpdateIssue) => {
     if (payload.startDate) {
-      payload.startDate = convertUTCToGMTPlus7(payload.startDate.toISOString()).slice(0, 10);
+      payload.startDate = convertUTCToGMTPlus7(payload.startDate.toISOString()).slice(0, 16);
     }
     if (payload.dueDate) {
-      payload.dueDate = convertUTCToGMTPlus7(payload.dueDate.toISOString()).slice(0, 10);
+      payload.dueDate = convertUTCToGMTPlus7(payload.dueDate.toISOString()).slice(0, 16);
     }
     if (payload.actualHours) {
       payload.actualHours = Number(payload.actualHours);
@@ -251,9 +251,10 @@ export default function EditIssue({
             <Col span={12}>
               <Form.Item className={styles.itemInput} style={{ width: '50%' }} name="startDate" label="Start Date">
                 <DatePicker
-                  format="YYYY-MM-DD"
-                  placeholder="YYYY-MM-DD"
+                  format="YYYY-MM-DD HH:mm"
+                  placeholder="YYYY-MM-DD HH:mm"
                   type-control="date"
+                  showTime
                   style={{ width: '100%' }}
                   allowClear={true}
                 />
@@ -263,9 +264,10 @@ export default function EditIssue({
             <Col span={12}>
               <Form.Item className={styles.itemInput} style={{ width: '50%' }} name="dueDate" label="Due Date">
                 <DatePicker
-                  format="YYYY-MM-DD"
-                  placeholder="YYYY-MM-DD"
+                  format="YYYY-MM-DD HH:mm"
+                  placeholder="YYYY-MM-DD HH:mm"
                   type-control="date"
+                  showTime
                   style={{ width: '100%' }}
                   allowClear={true}
                 />

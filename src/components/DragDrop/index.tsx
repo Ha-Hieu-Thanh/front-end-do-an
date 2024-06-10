@@ -199,8 +199,8 @@ export default function DragAndDropList({
                   </span>
                 )}
                 <span style={{marginRight: '10px'}}>({item.issueCount})</span>
-                {item.startDate ? <span style={{marginRight: '10px'}}>start date: {moment(item.startDate).format('YYYY-MM-DD')}</span> : <></>}
-                {item.endDate ? <span style={{marginRight: '10px'}}>end date: {moment(item.endDate).format('YYYY-MM-DD')}</span> : <></>}
+                {item.startDate ? <span style={{marginRight: '10px'}}>start date: {moment(item.startDate).format('YYYY-MM-DD HH:mm')}</span> : <></>}
+                {item.endDate ? <span style={{marginRight: '10px'}}>end date: {moment(item.endDate).format('YYYY-MM-DD HH:mm')}</span> : <></>}
               </div>
               <div>
                 <DeleteOutlined

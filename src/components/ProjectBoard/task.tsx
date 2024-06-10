@@ -92,6 +92,9 @@ export default function Task(props: any) {
     queryFn: () => getIssueDetail(props.task.id),
     enabled: props.task.id !== undefined,
   });
+
+  console.log('---props.task.dueDate---', props.task.dueDate);
+  console.log('---new Date().toISOString().slice(0, 16)---', new Date().toISOString().slice(0, 16));
   return (
     <>
       <Draggable draggableId={String(props.task.id)} index={props.index} isDragDisabled={!isEdit}>
@@ -129,7 +132,7 @@ export default function Task(props: any) {
                   <div style={{ alignItems: 'center', display: 'flex', WebkitAlignContent: 'center' }}>
                     {props.task?.dueDate &&
                     props.columnName !== 'Closed' &&
-                    props.task.dueDate <= new Date().toISOString().slice(0, 10) ? (
+                    new Date(props.task.dueDate).getTime() <= new Date().getTime() ? (
                       <>
                         <FireTwoTone twoToneColor="#f42858" />
                         <ItemDueDate>{props.task?.dueDate}</ItemDueDate>

@@ -359,7 +359,7 @@ export default function DashboardProjectIssues() {
       dataIndex: ['createdAt'],
       key: 'issueCreatedAt',
       render: (data: any, record: any) => {
-        return <p>{moment(data).utcOffset(7).format('MMM DD, YYYY')}</p>;
+        return <p>{moment(data).utcOffset(7).format('YYYY-MM-DD HH:mm')}</p>;
       },
     },
     {
@@ -367,7 +367,7 @@ export default function DashboardProjectIssues() {
       dataIndex: ['startDate'],
       key: 'issueStartDate',
       render: (data: any, record: any) => {
-        return <p>{data ? moment(data).utcOffset(7).format('MMM DD, YYYY') : ''}</p>;
+        return <p>{data ? moment(data).utcOffset(7).format('YYYY-MM-DD HH:mm') : ''}</p>;
       },
     },
     {
@@ -375,7 +375,7 @@ export default function DashboardProjectIssues() {
       dataIndex: ['dueDate'],
       key: 'issueDueDate',
       render: (data: any, record: any) => {
-        return <p>{data ? moment(data).utcOffset(7).format('MMM DD, YYYY') : ''}</p>;
+        return <p>{data ? moment(data).utcOffset(7).format('YYYY-MM-DD HH:mm') : ''}</p>;
       },
     },
     {
