@@ -3,6 +3,9 @@
   .topSearch {
     margin-bottom: 20px;
     .searchState {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       .itemState {
         border: none;
         cursor: pointer;

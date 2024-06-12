@@ -263,6 +263,7 @@ export interface IFilterIssue {
   isGetAll?: boolean;
   isCreated?: boolean;
   sortField?: string;
+  exportCsv?: boolean;
 }
 export interface IPayloadCreateMyProjects {
   name: string;

@@ -22,7 +22,7 @@ import useProfileClient from '@/utils/hooks/useProfileClient';
 import { UserOutlined, ToolOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@xstyled/styled-components';
-import { Avatar, Input, Modal, Select, Spin, Table } from 'antd';
+import { Avatar, Button, Input, Modal, Select, Spin, Table } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment';
 import { useEffect, useState, useCallback, lazy, useRef } from 'react';
@@ -399,10 +399,30 @@ export default function DashboardProjectIssues() {
       dataIndex: ['updatedAt'],
       key: 'issueUpdated',
       render: (data: any, record: any) => {
-        return <p>{moment(data).format('MMM DD, YYYY')}</p>;
+        return <p>{moment(data).utcOffset(7).format('YYYY-MM-DD HH:mm')}</p>;
       },
     },
   ];
+
+  const handleDownloadCsv = async () => {
+    const { domain, fileName } = (
+      await projectIssueList({
+        keyword,
+        typeId,
+        categoryId,
+        versionId,
+        assigneeId,
+        isCreated,
+        stateIds,
+        sortField,
+        exportCsv: true,
+        ...filterIssues,
+      })
+    ).data;
+
+    window.open(`${domain}/${fileName}`);
+  };
+
   return (
     <div className={styles.dashboardProjectIssues}>
       <div className={styles.topSearch}>
@@ -425,6 +445,15 @@ export default function DashboardProjectIssues() {
               ))}
             </dl>
           )}
+          <div style={{ width: '210px' }}>
+            <button
+              className="btn btn-green"
+              style={{ height: '40px', fontWeight: '600', borderRadius: '0px' }}
+              onClick={handleDownloadCsv}
+            >
+              Download CSV
+            </button>
+          </div>
         </div>
         <div className={styles.searchOther}>
           <Select
