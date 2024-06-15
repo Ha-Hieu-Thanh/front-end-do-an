@@ -19,10 +19,10 @@ import {
 } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
 import useProfileClient from '@/utils/hooks/useProfileClient';
-import { UserOutlined, ToolOutlined } from '@ant-design/icons';
+import { UserOutlined, ToolOutlined, MonitorOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import styled from '@xstyled/styled-components';
-import { Avatar, Button, Input, Modal, Select, Spin, Table } from 'antd';
+import { Avatar, Button, Input, Modal, Select, Spin, Table, Tooltip } from 'antd';
 import classNames from 'classnames';
 import moment from 'moment';
 import { useEffect, useState, useCallback, lazy, useRef } from 'react';
@@ -83,6 +83,7 @@ export default function DashboardProjectIssues() {
   const [issueId, setIssueId] = useState<number | null>(issueIdFromParam ? issueIdFromParam : null);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isCreated, setsIsCreated] = useState<boolean>(false);
+  const [isAdvancedSearch, setIsAdvancedSearch] = useState<boolean>(false);
 
   const setSearchKeyword = useRef(
     debounce((value: string) => {
@@ -141,6 +142,7 @@ export default function DashboardProjectIssues() {
       stateIds,
       filterIssues,
       isCreated,
+      isAdvancedSearch,
       sortField,
     ],
     queryFn: () =>
@@ -153,6 +155,7 @@ export default function DashboardProjectIssues() {
         isCreated,
         stateIds,
         sortField,
+        isAdvancedSearch,
         ...filterIssues,
       }),
     keepPreviousData: true,
@@ -216,6 +219,11 @@ export default function DashboardProjectIssues() {
   const handleMyCreated = () => {
     setsIsCreated(!isCreated);
   };
+
+  const handleAdvancedSearch = () => {
+    setIsAdvancedSearch(!isAdvancedSearch);
+  };
+
   const onChange = (value: any, type: ChangeFillType) => {
     switch (type) {
       case ChangeFillType.TYPE:
@@ -577,22 +585,40 @@ export default function DashboardProjectIssues() {
               },
             ]}
           />
-          <Avatar
-            icon={<UserOutlined />}
-            style={{ cursor: 'pointer', backgroundColor: assigneeId ? '#4caf93' : 'rgba(0, 0, 0, 0.25)' }}
-            size={33}
-            onClick={handleAssignMyself}
-          />
-          <Avatar
-            icon={<ToolOutlined />}
-            style={{
-              cursor: 'pointer',
-              marginLeft: '10px',
-              backgroundColor: isCreated ? '#4caf93' : 'rgba(0, 0, 0, 0.25)',
-            }}
-            size={33}
-            onClick={handleMyCreated}
-          />
+          <Tooltip title="Assign myself">
+            <Avatar
+              icon={<UserOutlined />}
+              // hover then display info about the avatar
+              key={'avatar'}
+              style={{ cursor: 'pointer', backgroundColor: assigneeId ? '#4caf93' : 'rgba(0, 0, 0, 0.25)' }}
+              size={33}
+              onClick={handleAssignMyself}
+            />
+          </Tooltip>
+          <Tooltip title="Created by myself">
+            <Avatar
+              icon={<ToolOutlined />}
+              style={{
+                cursor: 'pointer',
+                marginLeft: '10px',
+                backgroundColor: isCreated ? '#4caf93' : 'rgba(0, 0, 0, 0.25)',
+              }}
+              size={33}
+              onClick={handleMyCreated}
+            />
+          </Tooltip>
+          <Tooltip title="Advanced search">
+            <Avatar
+              icon={<MonitorOutlined />}
+              style={{
+                cursor: 'pointer',
+                marginLeft: '10px',
+                backgroundColor: isAdvancedSearch ? '#4caf93' : 'rgba(0, 0, 0, 0.25)',
+              }}
+              size={33}
+              onClick={handleAdvancedSearch}
+            />
+          </Tooltip>
           <Input
             style={{ width: 200, marginLeft: '25px', borderRadius: '0px', height: '33px' }}
             placeholder="Enter keyword"

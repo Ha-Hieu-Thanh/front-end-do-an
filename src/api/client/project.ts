@@ -264,6 +264,7 @@ export interface IFilterIssue {
   isCreated?: boolean;
   sortField?: string;
   exportCsv?: boolean;
+  isAdvancedSearch?: boolean;
 }
 export interface IPayloadCreateMyProjects {
   name: string;
