@@ -105,8 +105,8 @@ function DashboardBody() {
         <div className={styles.issueHistoryTitle}>
           <span className={styles.issueHistorySpan}>
             <span>{name}</span>
-            <span style={{ fontWeight: '600' }}>added a new</span>
-            <span className={styles.issueHistoryMain}>issue</span>
+            <span className={styles.issueHistoryMainCreated}>created</span>
+            <span style={{ fontWeight: '600' }}>a new issue</span>
           </span>
         </div>
       );
@@ -116,7 +116,7 @@ function DashboardBody() {
         <div className={styles.issueHistoryTitle}>
           <span className={styles.issueHistorySpan}>
             <span>{name}</span>
-            <span className={styles.issueHistoryMain}>updated</span>
+            <span className={styles.issueHistoryMainUpdated}>updated</span>
             <span style={{ fontWeight: '600' }}>the issue</span>
           </span>
         </div>

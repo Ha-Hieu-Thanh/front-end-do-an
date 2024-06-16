@@ -1,6 +1,12 @@
 import { history } from '@/App';
 import { IClientChangePassword, clientChangePassword } from '@/api/client/auth';
-import { confirmJoinProject, createMyProjects, getCountNotificationUnread, getMyProjects } from '@/api/client/project';
+import {
+  confirmJoinProject,
+  createMyProjects,
+  getCountNotificationUnread,
+  getMyProjects,
+  projectIssueList,
+} from '@/api/client/project';
 import icons from '@/assets/icons';
 import { LabelDefault, MenuKey, Message, UserProjectRole, UserProjectStatus, UserRole } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
@@ -11,20 +17,41 @@ import useProfileClient from '@/utils/hooks/useProfileClient';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Avatar, Checkbox, Drawer, Dropdown, Form, Input, Menu, MenuProps, Modal, Select, message } from 'antd';
 import debounce from 'lodash/debounce';
-import { lazy, startTransition, useCallback, useRef, useState, useEffect } from 'react';
+import { startTransition, useCallback, useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AddProject from '../AddProject';
 import styles from './styles.module.scss';
 import ListNotification from '../ListNotification';
 import socket from '@/utils/socket';
+import SearchProjects from '../SearchProjects';
+import SearchIssues from '../SearchIssues';
 export default function DashboardHeader() {
   const containerRef = useRef<any>();
   const { profile } = useProfileClient(true);
   const [keywordProjects, setKeywordProjects] = useState('');
+  const [keywordIssues, setKeywordIssues] = useState('');
   const [pageIndexProjects, setPageIndexProjects] = useState(1);
   const [isModalOpenAddProject, setIsModalOpenAddProject] = useState(false);
   const [isModalOpenAddIssue, setIsModalOpenAddIssue] = useState(false);
   const [isRead, setIsRead] = useState<boolean | undefined>(undefined);
+
+  const [isModalOpenSearchProject, setIsModalOpenSearchProject] = useState(false);
+  const handleCancelSearchProject = () => {
+    setIsModalOpenSearchProject(false);
+    // clear text
+    console.log('-a-a-a');
+    inputRef.current.value = '';
+    setKeywordProjects('');
+  };
+
+  const [isModalOpenSearchIssue, setIsModalOpenSearchIssue] = useState(false);
+  const handleCancelSearchIssue = () => {
+    setIsModalOpenSearchIssue(false);
+    // clear text
+    console.log('-b-b-b-b');
+    inputRefIssue.current.value = '';
+    setKeywordIssues('');
+  };
 
   const changePasswordMutation = useMutation({
     mutationFn: (params: IClientChangePassword) => clientChangePassword(params),
@@ -49,6 +76,14 @@ export default function DashboardHeader() {
     }, 500),
   );
   const inputRef = useRef<any>();
+
+  const setSearchValueIssue = useRef(
+    debounce((value: string) => {
+      setKeywordIssues(value);
+    }, 500),
+  );
+  const inputRefIssue = useRef<any>();
+
   const queryClient = useQueryClient();
   const [projectId, setProjectId] = useState<number | null>();
 
@@ -65,6 +100,15 @@ export default function DashboardHeader() {
       keepPreviousData: true,
     },
   );
+
+  const { data: dataIssues } = useQuery(
+    [queryKeys.issueList, keywordIssues],
+    () => projectIssueList({ isAdvancedSearch: true, keyword: keywordIssues }),
+    {
+      keepPreviousData: true,
+    },
+  );
+
   const { data: countNotiUnread } = useQuery([queryKeys.countNotiUnread], () => getCountNotificationUnread(), {
     keepPreviousData: true,
   });
@@ -199,13 +243,28 @@ export default function DashboardHeader() {
     }
   };
   const [openDashProjects, setOpenDashProjects] = useState(false);
+  const [openDashIssues, setOpenDashIssues] = useState(false);
+
   const handleOpenChangeDashProjects = (flag: boolean) => {
     setOpenDashProjects(flag);
     return;
   };
+
+  const handleOpenChangeDashIssues = (flag: boolean) => {
+    setOpenDashIssues(flag);
+    return;
+  };
+
   const handleHideDashProjects = () => {
+    setIsModalOpenSearchProject(false);
     setOpenDashProjects(false);
   };
+
+  const handleHideDashIssues = () => {
+    setIsModalOpenSearchIssue(false);
+    setOpenDashIssues(false);
+  };
+
   const handleClickSettingProject = (id: number) => {
     setOpenDashProjects(false);
     history.push(`/project/${id}/setting`);
@@ -216,6 +275,9 @@ export default function DashboardHeader() {
   };
   const handleKeyWordProjects = useCallback(({ target }: { target: { value: string } }) => {
     setSearchValue.current(target.value);
+  }, []);
+  const handleKeyWordIssues = useCallback(({ target }: { target: { value: string } }) => {
+    setSearchValueIssue.current(target.value);
   }, []);
 
   const handleRemoveWordProjects = useCallback(() => {
@@ -230,25 +292,15 @@ export default function DashboardHeader() {
     if (pageIndexProjects !== dataProjects?.totalPages) setPageIndexProjects(pageIndexProjects + 1);
   };
 
-  const itemDashProjects: MenuProps['items'] = [];
+  // const itemDashProjects: MenuProps['items'] = [];
+  const itemDashIssues: MenuProps['items'] = [];
   const itemDashAdd: MenuProps['items'] = [
-    // {
-    //   key: 'ADD_ISSUE',
-    //   label: <p>Add Issue</p>,
-    //   className: `${styles.dashAddIssue}`,
-    //   onClick: showModalAddIssue,
-    // },
     {
       key: 'ADD_PROJECT',
       label: <p>Add Project</p>,
       className: `${styles.dashAddProject}`,
       onClick: showModalAddProject,
     },
-    // {
-    //   key: 'ADD_User',
-    //   label: <p>Add User</p>,
-    //   className: `${styles.dashAddUser}`,
-    // },
   ];
 
   const itemDashAdmin: MenuProps['items'] = [
@@ -264,138 +316,6 @@ export default function DashboardHeader() {
     },
   ];
 
-  itemDashProjects.unshift(
-    {
-      key: 'DEFAULT',
-      label: (
-        <div>
-          <p>Projects</p>
-        </div>
-      ),
-      className: `${styles.dashProjectsTitle}`,
-    },
-    {
-      key: 'INPUT',
-      label: (
-        <div>
-          <img src={icons.Search} alt="Search project" />
-          <input placeholder="Search projects" onChange={handleKeyWordProjects} ref={inputRef} />
-          <img src={icons.Remove} alt="remove search project" onClick={handleRemoveWordProjects} />
-        </div>
-      ),
-      className: `${styles.dashProjectsSearch}`,
-    },
-  );
-  if (dataProjects?.data?.length) {
-    itemDashProjects.push(
-      ...dataProjects?.data?.map((item: any) => ({
-        key: item.id,
-        label: (
-          <div>
-            <div>
-              <div
-                className={styles.dashProjectsItemTop}
-                onClick={() => {
-                  if (item?.userProject?.status === UserProjectStatus.ACTIVE) {
-                    handleClickProject(item.id);
-                  }
-                  if (item?.userProject?.status === UserProjectStatus.PENDING) {
-                    message.error('You are not in the project, please join to continue');
-                  }
-                }}
-              >
-                <div>
-                  <span className={styles.dashProjectsItemName}>{item.name}</span>
-                  <span className={styles.dashProjectsItemKey}>({item.key})</span>
-                </div>
-                {[UserProjectRole.PM, UserProjectRole.SUB_PM].includes(item?.userProject?.role) && (
-                  <img
-                    onClick={(e) => {
-                      if (item?.userProject?.role === UserProjectRole.STAFF) {
-                        return;
-                      }
-                      e.stopPropagation();
-                      handleClickSettingProject(item.id);
-                    }}
-                    src={icons.Setting}
-                    alt="Setting detail project"
-                    style={item?.userProject?.role === UserProjectRole.STAFF ? { cursor: 'no-drop' } : {}}
-                  ></img>
-                )}
-              </div>
-            </div>
-            {item?.userProject?.status === UserProjectStatus.ACTIVE && (
-              <div className={styles.dashProjectsItemBottom}>
-                <Link onClick={handleHideDashProjects} to={`/project/${item.id}/add-issue`}>
-                  Add Issue
-                </Link>
-                <Link onClick={handleHideDashProjects} to={`/project/${item.id}/issue`}>
-                  Issue
-                </Link>
-                <Link onClick={handleHideDashProjects} to={`/project/${item.id}/board`}>
-                  Board
-                </Link>
-                <Link onClick={handleHideDashProjects} to={`/project/${item.id}/wiki`}>
-                  Wiki
-                </Link>
-              </div>
-            )}
-            {item?.userProject?.status === UserProjectStatus.PENDING && (
-              <div className={styles.joinToProject} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <button
-                  onClick={() => handleJoinProject(UserProjectStatus.ACTIVE, item.id)}
-                  type="submit"
-                  className="btn btn-green"
-                  style={{ height: '35px', color: 'black' }}
-                >
-                  Confirm join to project
-                </button>
-                <button
-                  onClick={() => handleJoinProject(UserProjectStatus.REJECT, item.id)}
-                  type="submit"
-                  className="btn btn-black"
-                  style={{ height: '35px' }}
-                >
-                  Reject join to project
-                </button>
-              </div>
-            )}
-          </div>
-        ),
-        className: `${styles.dashProjectsItem}`,
-      })),
-    );
-    itemDashProjects.push({
-      key: 'LOAD',
-      className: styles.dashProjectsLoadMain,
-      label: (
-        <div className={styles.dashProjectsLoad}>
-          <div onClick={handlePrevProjects} className={pageIndexProjects === 1 ? styles.hidePrev : ''}>
-            <img src={icons.Prev} alt="prev" /> <p>Prev</p>
-          </div>
-          <div
-            onClick={handleNextProjects}
-            className={pageIndexProjects === dataProjects?.totalPages ? styles.hidePrev : ''}
-          >
-            <p>Next</p> <img src={icons.Next} alt="next" />
-          </div>
-        </div>
-      ),
-    });
-  }
-  if (!dataProjects?.data?.length) {
-    itemDashProjects.push({
-      key: 'NO_PROJECTS',
-      label: (
-        <div>
-          There are no projects assigned to you yet.
-          <br /> Projects assigned to you will be listed here.
-        </div>
-      ),
-      className: `${styles.dashProjectsNone}`,
-    });
-  }
-
   const menuItemsLeftClient: MenuProps['items'] = [
     {
       key: 'DASH_ICON_MAIN',
@@ -409,17 +329,27 @@ export default function DashboardHeader() {
     {
       key: 'DASH_PROJECTS',
       label: (
-        <Dropdown
-          menu={{
-            items: itemDashProjects,
-            className: `${styles.dashProjects}`,
+     
+        <div
+          onClick={() => {
+            setIsModalOpenSearchProject(true);
           }}
-          trigger={['click']}
-          onOpenChange={handleOpenChangeDashProjects}
-          open={openDashProjects}
         >
-          <div>Projects</div>
-        </Dropdown>
+          Projects
+        </div>
+      ),
+    },
+    {
+      key: 'DASH_ISSUES',
+      label: (
+       
+        <div
+          onClick={() => {
+            setIsModalOpenSearchIssue(true);
+          }}
+        >
+          Issues
+        </div>
       ),
     },
     {
@@ -427,6 +357,7 @@ export default function DashboardHeader() {
       title: 'Add',
       label: (
         <Dropdown
+          key={'DASH_ICON_ADD'}
           menu={{
             items: itemDashAdd,
             className: `${styles.dashAdd}`,
@@ -444,23 +375,6 @@ export default function DashboardHeader() {
       icon: <img src={icons.Logo} alt="company-icon" className={styles.companyIcon}></img>,
       label: <Link to={'/'}></Link>,
     },
-    // {
-    //   key: 'DASH_ADMIN',
-    //   disabled: profile && profile.role !== UserRole.ADMIN,
-    //   label:
-    //     profile && profile.role !== UserRole.ADMIN ? (
-    //       <></>
-    //     ) : (
-    //       <Dropdown
-    //         menu={{
-    //           items: itemDashAdmin,
-    //         }}
-    //         trigger={['click']}
-    //       >
-    //         <div>Admin</div>
-    //       </Dropdown>
-    //     ),
-    // },
     ...itemDashAdmin,
   ];
 
@@ -561,6 +475,29 @@ export default function DashboardHeader() {
         isModalOpen={isModalOpenAddProject}
         handleOk={handleOkAddProject}
         handleCancel={handleCancelAddProject}
+      />
+      <SearchProjects
+        isModalOpenSearchProject={isModalOpenSearchProject}
+        handleCancelSearchProject={handleCancelSearchProject}
+        handleKeyWordProjects={handleKeyWordProjects}
+        inputRef={inputRef}
+        handleRemoveWordProjects={handleRemoveWordProjects}
+        dataProjects={dataProjects}
+        handleClickProject={handleClickProject}
+        handleClickSettingProject={handleClickSettingProject}
+        handleHideDashProjects={handleHideDashProjects}
+        handleJoinProject={handleJoinProject}
+        handlePrevProjects={handlePrevProjects}
+        handleNextProjects={handleNextProjects}
+        pageIndexProjects={pageIndexProjects}
+      />
+      <SearchIssues
+        isModalOpenSearchIssue={isModalOpenSearchIssue}
+        handleCancelSearchIssue={handleCancelSearchIssue}
+        handleKeyWordIssues={handleKeyWordIssues}
+        inputRef={inputRefIssue}
+        dataIssues={dataIssues}
+        handleHideDashIssues={handleHideDashIssues}
       />
       <Drawer title="Help" placement="right" onClose={onCloseHelp} open={openHelp}>
         <p>Some contents...</p>

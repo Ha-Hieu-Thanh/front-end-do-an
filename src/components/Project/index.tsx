@@ -168,7 +168,7 @@ export default function Project() {
         <div className={styles.issueHistoryTitle}>
           <span className={styles.issueHistorySpan}>
             <span>{name}</span>
-            <span className={styles.issueHistoryMain}>created</span>
+            <span className={styles.issueHistoryMainCreated}>created</span>
             <span style={{ fontWeight: '600' }}> new issue</span>
           </span>
         </div>
@@ -179,7 +179,7 @@ export default function Project() {
         <div className={styles.issueHistoryTitle}>
           <span className={styles.issueHistorySpan}>
             <span>{name}</span>
-            <span className={styles.issueHistoryMain}>updated</span>
+            <span className={styles.issueHistoryMainUpdated}>updated</span>
             <span style={{ fontWeight: '600' }}>the issue</span>
           </span>
         </div>

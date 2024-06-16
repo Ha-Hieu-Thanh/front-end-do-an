@@ -20,8 +20,18 @@
             font-weight: 600;
           }
         }
-        .issueHistoryMain {
+        .issueHistoryMainCreated {
           background-color: #4caf93 !important;
+          color: #ffffff !important;
+          border-radius: 20px;
+          font-size: 1.2rem;
+          margin: -1px 4px 0;
+          padding: 2px 5px;
+          line-height: 1.7rem;
+          font-weight: 400;
+        }
+        .issueHistoryMainUpdated {
+          background-color: #f57c00 !important;
           color: #ffffff !important;
           border-radius: 20px;
           font-size: 1.2rem;
