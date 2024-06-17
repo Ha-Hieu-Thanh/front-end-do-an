@@ -30,6 +30,7 @@ const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const ConfirmForgotPasswordForm = lazy(() => import('@/pages/ConfirmForgotPassword'));
 const UserManagement = lazy(() => import('@/components/UserManagement'));
 const ProjectManagement = lazy(() => import('@/components/ProjectManagement'));
+const IssueManagement = lazy(() => import('@/components/IssueManagement'));
 const Welcome = lazy(() => import('@/components/Welcome'));
 
 export default function AppWrapper(): any {
@@ -50,6 +51,7 @@ export default function AppWrapper(): any {
             <Route path="/admin" element={<NotFound />} />
             <Route path="/admin/user-management" element={<UserManagement />} />
             <Route path="/admin/project-management" element={<ProjectManagement />} />
+            <Route path="/admin/issue-management" element={<IssueManagement />} />
           </Route>
           <Route path="/project/:projectId" element={<Main />}>
             <Route path="" element={<Project />}></Route>

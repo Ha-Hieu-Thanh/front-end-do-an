@@ -9,10 +9,13 @@ import {
   updateUserInSystem,
 } from '@/api/admin/admin';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import queryKeys from '@/connstant/queryKeys';
 import { UserRole, UserStatus } from '@/connstant/enum/common';
 import icons from '@/assets/icons';
+import { debounce } from 'lodash';
+import Cookies from 'js-cookie';
+import moment from 'moment';
 
 export const initFilterUser: IParamsGetListProjectInSystem = {
   pageIndex: 1,
@@ -20,12 +23,25 @@ export const initFilterUser: IParamsGetListProjectInSystem = {
 };
 
 export default function UserManagement() {
+  Cookies.remove('projectId');
+
   const [filterUser, setFilterUser] = useState<IParamsGetListProjectInSystem>(initFilterUser);
+  const [keyword, setKeyword] = useState<string>('');
+  const setSearchKeyword = useRef(
+    debounce((value: string) => {
+      setKeyword(value);
+      setFilterUser((prev) => ({ ...prev, pageIndex: 1 }));
+    }, 500),
+  );
+  const handleKeyWord = ({ target }: { target: { value: string } }) => {
+    setSearchKeyword.current(target.value);
+  };
+
   const queryClient = useQueryClient();
 
   const { data: userList } = useQuery({
-    queryKey: [queryKeys.listUserInSystem, { ...filterUser }],
-    queryFn: () => getListUserInSystem(filterUser),
+    queryKey: [queryKeys.listUserInSystem, { keyword, ...filterUser }],
+    queryFn: () => getListUserInSystem({ keyword, ...filterUser }),
     keepPreviousData: true,
     enabled: true,
   });
@@ -80,11 +96,17 @@ export default function UserManagement() {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      render: (data: any, record: any) => {
+        return <p>{moment(data).utcOffset(7).format('YYYY-MM-DD HH:mm')}</p>;
+      },
     },
     {
       title: 'Updated At',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
+      render: (data: any, record: any) => {
+        return <p>{moment(data).utcOffset(7).format('YYYY-MM-DD HH:mm')}</p>;
+      },
     },
     {
       title: 'Action',
@@ -121,11 +143,7 @@ export default function UserManagement() {
 
   return (
     <div style={{ marginTop: '30px' }}>
-      <Input.Search
-        placeholder="Search user"
-        onSearch={(value) => setFilterUser({ ...filterUser, keyword: value })}
-        style={{ marginBottom: '16px' }}
-      />
+      <Input allowClear placeholder="Search user" onChange={handleKeyWord} style={{ marginBottom: '16px' }} />
       <Table
         dataSource={userList && userList.data}
         columns={columns}

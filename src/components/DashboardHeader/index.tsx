@@ -38,8 +38,6 @@ export default function DashboardHeader() {
   const [isModalOpenSearchProject, setIsModalOpenSearchProject] = useState(false);
   const handleCancelSearchProject = () => {
     setIsModalOpenSearchProject(false);
-    // clear text
-    console.log('-a-a-a');
     inputRef.current.value = '';
     setKeywordProjects('');
   };
@@ -47,8 +45,6 @@ export default function DashboardHeader() {
   const [isModalOpenSearchIssue, setIsModalOpenSearchIssue] = useState(false);
   const handleCancelSearchIssue = () => {
     setIsModalOpenSearchIssue(false);
-    // clear text
-    console.log('-b-b-b-b');
     inputRefIssue.current.value = '';
     setKeywordIssues('');
   };
@@ -314,6 +310,11 @@ export default function DashboardHeader() {
       label: <p>Project Management</p>,
       onClick: () => history.push('/admin/project-management'),
     },
+    {
+      key: 'ISSUE_MANAGEMENT',
+      label: <p>Issue Management</p>,
+      onClick: () => history.push('/admin/issue-management'),
+    },
   ];
 
   const menuItemsLeftClient: MenuProps['items'] = [
@@ -329,7 +330,6 @@ export default function DashboardHeader() {
     {
       key: 'DASH_PROJECTS',
       label: (
-     
         <div
           onClick={() => {
             setIsModalOpenSearchProject(true);
@@ -342,7 +342,6 @@ export default function DashboardHeader() {
     {
       key: 'DASH_ISSUES',
       label: (
-       
         <div
           onClick={() => {
             setIsModalOpenSearchIssue(true);
@@ -462,7 +461,7 @@ export default function DashboardHeader() {
           {profile && profile.role === UserRole.CLIENT ? (
             <Menu mode="horizontal" items={menuItemsLeftClient} style={{ minWidth: '800px' }} />
           ) : (
-            <Menu mode="horizontal" items={menuItemsLeftAdmin} />
+            <Menu mode="horizontal" items={menuItemsLeftAdmin} style={{ minWidth: '800px' }} />
           )}
         </div>
         <div className={styles.rightDashboardMenu}>
