@@ -42,7 +42,7 @@ export default function ProjectSettingIssueVersion() {
       payload.startDate = convertUTCToGMTPlus7(payload.startDate.toISOString()).slice(0, 16);
     }
     if (payload.endDate) {
-      payload.endDate = convertUTCToGMTPlus7(payload.endDate.toISOString()).slice(0, 16);
+      payload.endDate = convertUTCToGMTPlus7(payload.endDate.toISOString()).slice(0, 16) || undefined;
     }
     addIssueVersionMutation.mutate(payload, {
       onSuccess: () => {
@@ -130,7 +130,7 @@ export default function ProjectSettingIssueVersion() {
               ({ getFieldValue }) => ({
                 validator(data, value: any) {
                   const startDate = getFieldValue('startDate');
-                  if (startDate && startDate.toISOString().slice(0, 16) > value.toISOString().slice(0, 16)) {
+                  if (value && startDate && startDate.toISOString().slice(0, 16) > value.toISOString().slice(0, 16)) {
                     return Promise.reject(Message.ERROR_START_DATE_MORE_THAN_DUE_DATE);
                   }
                   return Promise.resolve();

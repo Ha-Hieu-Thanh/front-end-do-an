@@ -8,7 +8,7 @@ import {
   projectIssueList,
 } from '@/api/client/project';
 import icons from '@/assets/icons';
-import { LabelDefault, MenuKey, Message, UserProjectRole, UserProjectStatus, UserRole } from '@/connstant/enum/common';
+import { LabelDefault, MenuKey, Message, UserProjectStatus, UserRole } from '@/connstant/enum/common';
 import queryKeys from '@/connstant/queryKeys';
 import { handleErrorMessage } from '@/i18n';
 import { handleSuccessMessage, logout } from '@/utils/helper/common';
@@ -288,8 +288,6 @@ export default function DashboardHeader() {
     if (pageIndexProjects !== dataProjects?.totalPages) setPageIndexProjects(pageIndexProjects + 1);
   };
 
-  // const itemDashProjects: MenuProps['items'] = [];
-  const itemDashIssues: MenuProps['items'] = [];
   const itemDashAdd: MenuProps['items'] = [
     {
       key: 'ADD_PROJECT',

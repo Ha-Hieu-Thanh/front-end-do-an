@@ -24,10 +24,6 @@
 }
 
 .issue {
-  &:hover {
-    cursor: pointer;
-    background-color: #2c9a7a;
-  }
   .issueName {
     font-size: 1.7rem;
     font-weight: 600;
@@ -38,4 +34,18 @@
     align-items: center;
     text-align: center;
   }
+  .issueTop {
+    padding: 10px;
+    &:hover {
+      cursor: pointer;
+      background-color: #2c9a7a;
+      color: white;
+    }
+  }
+}
+
+.listIssue {
+  max-height: 800px;
+  // scroll vertically
+  overflow-y: auto;
 }

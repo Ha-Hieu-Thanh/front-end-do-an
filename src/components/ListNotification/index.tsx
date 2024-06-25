@@ -8,9 +8,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.scss';
 import { handleErrorMessage } from '@/i18n';
 import { UserOutlined } from '@ant-design/icons';
-import { NotificationRedirectType, NotificationTargetType } from '@/connstant/enum/common';
+import { NotificationRedirectType, NotificationTargetType, UserRole } from '@/connstant/enum/common';
 import { history } from '@/App';
 import icons from '@/assets/icons';
+import useProfileClient from '@/utils/hooks/useProfileClient';
 interface INotification {
   id: number;
   title: string;
@@ -37,6 +38,7 @@ export default function ListNotification(params: { isRead: boolean | undefined; 
   const [listNotification, setListNotification] = useState<INotification[]>([]);
   const [pageIndex, setPageIndex] = useState(1);
   const queryClient = useQueryClient();
+  const { profile } = useProfileClient(true);
 
   const init = { pageSize: 10, pageIndex };
   if (params.hasOwnProperty('isRead') && params.isRead != undefined) {
@@ -91,7 +93,9 @@ export default function ListNotification(params: { isRead: boolean | undefined; 
               break;
             }
             case NotificationRedirectType.PROJECT_SETTING_MEMBER: {
-              history.push(`/project/${noti.redirectId}/setting/members`);
+              if (profile && profile?.role === UserRole.ADMIN)
+                history.push(`/project/${noti.redirectId}/setting/members`);
+              else history.push(`/project/${noti.redirectId}/`);
               break;
             }
             case NotificationRedirectType.PROJECT_ISSUE: {

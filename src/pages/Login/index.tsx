@@ -2,7 +2,7 @@ import { history } from '@/App';
 import { IClientLogin, clientLogin } from '@/api/client/auth';
 import { Calendar, Chat, Logo, Task, eyeCloseIcon, eyeOpenIcon } from '@/assets';
 import configs from '@/connstant/config';
-import { ClientLoginType, LabelDefault, Message } from '@/connstant/enum/common';
+import { LabelDefault, Message } from '@/connstant/enum/common';
 import { handleErrorMessage } from '@/i18n';
 import { validate } from '@/utils/helper/validate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -32,7 +32,7 @@ export default function LoginForm() {
     const { remember, ...params } = payload;
 
     loginMutation.mutate(
-      { ...params, loginType: ClientLoginType.DEFAULT },
+      { ...params },
       {
         onSuccess: (data) => {
           const { token, refreshToken } = data.data;

@@ -35,9 +35,18 @@ function DashboardBody() {
     [queryKeys.projectList, pageIndexProjects],
     () => getMyProjects({ pageSize: 5, pageIndex: pageIndexProjects }),
     {
-      keepPreviousData: true,
+      keepPreviousData: false,
     },
   );
+
+  const { data: firstProject } = useQuery(
+    [queryKeys.projectList, 1],
+    () => getMyProjects({ pageSize: 1, pageIndex: 1 }),
+    {
+      keepPreviousData: false,
+    },
+  );
+
   const queryClient = useQueryClient();
 
   const { data: issueHistoryData } = useQuery({
@@ -63,8 +72,8 @@ function DashboardBody() {
   }, [issueHistoryData?.data]);
 
   useEffect(() => {
-    if (dataProjects?.data && dataProjects?.data.pageIndex != 1) {
-      setProjects([...projects, ...dataProjects?.data]);
+    if (dataProjects?.data && dataProjects?.data.pageIndex !== 1) {
+      setProjects(Array.from(new Set([...firstProject?.data, ...projects, ...dataProjects?.data])));
     }
     if (dataProjects?.data && dataProjects?.pageIndex === 1) {
       setProjects(dataProjects?.data);
@@ -72,7 +81,10 @@ function DashboardBody() {
   }, [dataProjects]);
 
   const handleDownOutlined = () => {
-    if (pageIndexProjects !== dataProjects?.totalPages) setPageIndexProjects(pageIndexProjects + 1);
+    if (pageIndexProjects !== dataProjects?.totalPages) {
+      // setPageIndexProjects(pageIndexProjects + 1)
+      setPageIndexProjects((prev) => prev + 1);
+    }
   };
   const joinProjectMutation = useMutation({
     mutationFn: (payload: { status: UserProjectStatus; projectId: number }) => confirmJoinProject(payload),

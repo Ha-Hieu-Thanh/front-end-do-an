@@ -23,23 +23,25 @@ function SearchIssueModal(params: any) {
             ref={params.inputRef}
           />
         </div>
-        {params.dataIssues?.data?.map((item: any) => (
-          <div
-            className={styles.issue}
-            onClick={() => {
-              params.handleHideDashIssues();
-              history.push(`/project/${item.project.id}/issue/${item.id}`);
-            }}
-          >
-            <hr />
-            <div className={styles.issueTop}>
-              <span className={styles.issueName}>{item.subject}</span>
-              <span className={styles.issueKey}>
-                [{item.project.key}-{item.id}]
-              </span>
+        <div className={styles.listIssue}>
+          {params.dataIssues?.data?.map((item: any) => (
+            <div
+              className={styles.issue}
+              onClick={() => {
+                params.handleHideDashIssues();
+                history.push(`/project/${item?.project?.id}/issue/${item.id}`);
+              }}
+            >
+              <hr />
+              <div className={styles.issueTop}>
+                <span className={styles.issueName}>{item.subject}</span>
+                <span className={styles.issueKey}>
+                  [{item.project.key}-{item.id}]
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
         <div style={{ marginBottom: 30 }}></div>
       </Modal>
     </>

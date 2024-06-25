@@ -129,7 +129,7 @@ export default function ProjectSettingMembers() {
       key: 'createdAt',
     },
     {
-      title: 'actions',
+      title: 'Actions',
       key: 'actions',
       width: 175,
       render: (_: any, record: any) => {

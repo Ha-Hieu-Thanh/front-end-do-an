@@ -1,4 +1,4 @@
-import { ClientLoginType } from '@/connstant/enum/common';
+// import { ClientLoginType } from '@/connstant/enum/common';
 import { assignBaseUrl, sendPost } from '../axios';
 
 export const clientLogin = (payload: IClientLogin): Promise<IClientLoginResponse> =>
@@ -31,7 +31,7 @@ export interface IClientChangePassword {
 export interface IClientLogin {
   email: string;
   password: string;
-  loginType: ClientLoginType;
+  // loginType: ClientLoginType;
 }
 export interface IClientRegister {
   email: string;

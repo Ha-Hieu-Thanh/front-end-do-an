@@ -35,74 +35,76 @@ function SearchProjectModal(params: any) {
             }}
           >
             <hr />
-            <div>
-              <div
-                className={styles.dashProjectsItemTop}
-                onClick={() => {
-                  if (item?.userProject?.status === UserProjectStatus.ACTIVE) {
-                    params.handleClickProject(item.id);
-                  }
-                  if (item?.userProject?.status === UserProjectStatus.PENDING) {
-                    message.error('You are not in the project, please join to continue');
-                  }
-                }}
-              >
-                <div>
-                  <span className={styles.dashProjectsItemName}>{item.name}</span>
-                  <span className={styles.dashProjectsItemKey}>[{item.key}]</span>
+            <div className={styles.dashProjectsItem}>
+              <div>
+                <div
+                  className={styles.dashProjectsItemTop}
+                  onClick={() => {
+                    if (item?.userProject?.status === UserProjectStatus.ACTIVE) {
+                      params.handleClickProject(item.id);
+                    }
+                    if (item?.userProject?.status === UserProjectStatus.PENDING) {
+                      message.error('You are not in the project, please join to continue');
+                    }
+                  }}
+                >
+                  <div>
+                    <span className={styles.dashProjectsItemName}>{item.name}</span>
+                    <span className={styles.dashProjectsItemKey}>[{item.key}]</span>
+                  </div>
+                  {[UserProjectRole.PM, UserProjectRole.SUB_PM].includes(item?.userProject?.role) && (
+                    <img
+                      onClick={(e) => {
+                        if (item?.userProject?.role === UserProjectRole.STAFF) {
+                          return;
+                        }
+                        e.stopPropagation();
+                        params.handleClickSettingProject(item.id);
+                      }}
+                      src={icons.Setting}
+                      alt="Setting detail project"
+                      style={item?.userProject?.role === UserProjectRole.STAFF ? { cursor: 'no-drop' } : {}}
+                    ></img>
+                  )}
                 </div>
-                {[UserProjectRole.PM, UserProjectRole.SUB_PM].includes(item?.userProject?.role) && (
-                  <img
-                    onClick={(e) => {
-                      if (item?.userProject?.role === UserProjectRole.STAFF) {
-                        return;
-                      }
-                      e.stopPropagation();
-                      params.handleClickSettingProject(item.id);
-                    }}
-                    src={icons.Setting}
-                    alt="Setting detail project"
-                    style={item?.userProject?.role === UserProjectRole.STAFF ? { cursor: 'no-drop' } : {}}
-                  ></img>
-                )}
               </div>
+              {item?.userProject?.status === UserProjectStatus.ACTIVE && (
+                <div className={styles.dashProjectsItemBottom}>
+                  <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/add-issue`}>
+                    Add Issue
+                  </Link>
+                  <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/issue`}>
+                    Issue
+                  </Link>
+                  <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/board`}>
+                    Board
+                  </Link>
+                  <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/wiki`}>
+                    Wiki
+                  </Link>
+                </div>
+              )}
+              {item?.userProject?.status === UserProjectStatus.PENDING && (
+                <div className={styles.joinToProject} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <button
+                    onClick={() => params.handleJoinProject(UserProjectStatus.ACTIVE, item.id)}
+                    type="submit"
+                    className="btn btn-green"
+                    style={{ height: '35px', color: 'black' }}
+                  >
+                    Confirm join to project
+                  </button>
+                  <button
+                    onClick={() => params.handleJoinProject(UserProjectStatus.REJECT, item.id)}
+                    type="submit"
+                    className="btn btn-black"
+                    style={{ height: '35px' }}
+                  >
+                    Reject join to project
+                  </button>
+                </div>
+              )}
             </div>
-            {item?.userProject?.status === UserProjectStatus.ACTIVE && (
-              <div className={styles.dashProjectsItemBottom}>
-                <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/add-issue`}>
-                  Add Issue
-                </Link>
-                <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/issue`}>
-                  Issue
-                </Link>
-                <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/board`}>
-                  Board
-                </Link>
-                <Link onClick={params.handleHideDashProjects} to={`/project/${item.id}/wiki`}>
-                  Wiki
-                </Link>
-              </div>
-            )}
-            {item?.userProject?.status === UserProjectStatus.PENDING && (
-              <div className={styles.joinToProject} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <button
-                  onClick={() => params.handleJoinProject(UserProjectStatus.ACTIVE, item.id)}
-                  type="submit"
-                  className="btn btn-green"
-                  style={{ height: '35px', color: 'black' }}
-                >
-                  Confirm join to project
-                </button>
-                <button
-                  onClick={() => params.handleJoinProject(UserProjectStatus.REJECT, item.id)}
-                  type="submit"
-                  className="btn btn-black"
-                  style={{ height: '35px' }}
-                >
-                  Reject join to project
-                </button>
-              </div>
-            )}
           </div>
         ))}
 

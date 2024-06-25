@@ -124,10 +124,10 @@ export default function IssueDetail({
   const [view, setView] = useState<viewType>(viewType.History);
 
   const { data: membersProjectList } = useQuery({
-    queryKey: [queryKeys.membersProject, { ...filterStaff }, project.id],
+    queryKey: [queryKeys.membersProject, { ...filterStaff }, project?.id],
     queryFn: () => membersProject({ ...filterStaff }),
     keepPreviousData: true,
-    enabled: project.id !== undefined,
+    enabled: project?.id !== undefined,
   });
 
   const quillRef = useRef(null);
@@ -168,10 +168,10 @@ export default function IssueDetail({
   };
 
   const { data: issueHistoryData } = useQuery({
-    queryKey: [queryKeys.projectIssueHistory, project.id, issueId],
+    queryKey: [queryKeys.projectIssueHistory, project?.id, issueId],
     queryFn: () => getProjectIssueHistory({ pageSize: 10, issueId }),
     keepPreviousData: true,
-    enabled: project.id !== undefined && issueId !== undefined,
+    enabled: project?.id !== undefined && issueId !== undefined,
   });
 
   const {
@@ -179,10 +179,10 @@ export default function IssueDetail({
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: [queryKeys.projectIssueComment, project.id, issueId],
+    queryKey: [queryKeys.projectIssueComment, project?.id, issueId],
     queryFn: async ({ pageParam }) => getProjectIssueComment(issueId, { pageSize: 5, pageIndex: pageParam }),
     keepPreviousData: true,
-    enabled: project.id !== undefined && issueId !== undefined,
+    enabled: project?.id !== undefined && issueId !== undefined,
     getNextPageParam: (lastPage) => {
       if (!lastPage) return undefined;
       if (lastPage.hasMore) {
@@ -201,7 +201,7 @@ export default function IssueDetail({
   const handleCreateComment = (content: string) => {
     createCommentMutation.mutate(content, {
       onSuccess: () => {
-        queryClient.invalidateQueries([queryKeys.projectIssueComment, project.id, issueId]);
+        queryClient.invalidateQueries([queryKeys.projectIssueComment, project?.id, issueId]);
       },
       onError: (error) => {
         console.log(error);
@@ -216,7 +216,7 @@ export default function IssueDetail({
     });
 
     socket.on('NEW_COMMENT', (data) => {
-      queryClient.invalidateQueries([queryKeys.projectIssueComment, project.id, issueId]);
+      queryClient.invalidateQueries([queryKeys.projectIssueComment, project?.id, issueId]);
     });
     return () => {
       socket.off('NEW_COMMENT');

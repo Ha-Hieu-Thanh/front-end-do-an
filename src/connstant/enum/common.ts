@@ -23,14 +23,14 @@ export enum Message {
   ERROR_REQUIRE_CONTENT = 'Required content',
 }
 
-export enum ClientLoginType {
-  DEFAULT = 1,
-  LINE = 2,
-  GOOGLE = 3,
-  FACEBOOK = 4,
-  TWITTER = 5,
-  YAHOO = 6,
-}
+// export enum ClientLoginType {
+//   DEFAULT = 1,
+//   LINE = 2,
+//   GOOGLE = 3,
+//   FACEBOOK = 4,
+//   TWITTER = 5,
+//   YAHOO = 6,
+// }
 
 export enum Environment {
   Development = 'development',
