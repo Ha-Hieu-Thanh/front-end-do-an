@@ -11,7 +11,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import queryKeys from '@/connstant/queryKeys';
-import { UserRole, UserStatus } from '@/connstant/enum/common';
+import { Gender, UserRole, UserStatus } from '@/connstant/enum/common';
 import icons from '@/assets/icons';
 import { debounce } from 'lodash';
 import Cookies from 'js-cookie';
@@ -69,6 +69,7 @@ export default function UserManagement() {
       title: 'Gender',
       dataIndex: 'gender',
       key: 'gender',
+      render: (gender: number) => (gender === Gender.MALE ? 'male' : 'female'),
     },
     {
       // birth day
@@ -114,7 +115,12 @@ export default function UserManagement() {
       key: 'status',
       render: (status: UserStatus, record: IResponseGetListUserInSystemData) =>
         status === UserStatus.ACTIVE ? (
-          <Button onClick={() => handleToggleStatus(record.id!)} type="primary" danger>
+          <Button
+            onClick={() => handleToggleStatus(record.id!)}
+            type="primary"
+            disabled={record.role === UserRole.ADMIN}
+            danger
+          >
             Block
           </Button>
         ) : (

@@ -251,7 +251,7 @@ export default function Project() {
                     description={
                       <>
                         <Link
-                          to={'/'}
+                          to={`/project/${project?.id}/issue/${item?.issueId}`}
                           style={{
                             color: '#00836b',
                             textDecoration: 'none',

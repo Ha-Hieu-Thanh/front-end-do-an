@@ -39,13 +39,7 @@ export default function ForgotPassword() {
           <a href="">Contact Us</a>
         </div>
         <div className={styles.forgotPasswordBody}>
-          <h1>Forgot Password task-manager account</h1>
-          <h2>Manager Task, Calendar, and Chat with your task-manager account</h2>
-          <div className={styles.productLogoList}>
-            <img src={Task}></img>
-            <img src={Calendar}></img>
-            <img src={Chat}></img>
-          </div>
+          <h1>Forgot Password</h1>
 
           <div className={styles.formContainer}>
             <Form

@@ -1,11 +1,13 @@
 import { history } from '@/App';
 import { IClientChangePassword, clientChangePassword } from '@/api/client/auth';
 import {
+  IPayloadReadNotification,
   confirmJoinProject,
   createMyProjects,
   getCountNotificationUnread,
   getMyProjects,
   projectIssueList,
+  readNotification,
 } from '@/api/client/project';
 import icons from '@/assets/icons';
 import { LabelDefault, MenuKey, Message, UserProjectStatus, UserRole } from '@/connstant/enum/common';
@@ -63,6 +65,27 @@ export default function DashboardHeader() {
         handleErrorMessage(error);
       },
     });
+  };
+
+  const handleReadNotification = useMutation({
+    mutationFn: (params: IPayloadReadNotification) => readNotification(params),
+  });
+
+  const handleReadAllNoti = () => {
+    handleReadNotification.mutate(
+      {
+        isReadAll: true,
+      },
+      {
+        onSuccess: (data) => {
+          queryClient.invalidateQueries([queryKeys.listNotification]);
+          queryClient.invalidateQueries([queryKeys.countNotiUnread]);
+        },
+        onError: (error) => {
+          handleErrorMessage(error);
+        },
+      },
+    );
   };
 
   const setSearchValue = useRef(
@@ -452,6 +475,7 @@ export default function DashboardHeader() {
       socket.off('NEW_NOTI');
     };
   }, []);
+
   return (
     <div className={styles.dashboardHeader} ref={(e) => (containerRef.current = e)}>
       <div className={styles.dashboardMenu}>
@@ -514,6 +538,9 @@ export default function DashboardHeader() {
             >
               Unread only
             </Checkbox>
+            <span onClick={handleReadAllNoti} style={{ cursor: 'pointer' }}>
+              Mark as read all
+            </span>
           </div>
         }
         placement="right"

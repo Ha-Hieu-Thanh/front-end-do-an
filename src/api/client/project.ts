@@ -116,7 +116,8 @@ export interface IParamsListComment {
 }
 
 export interface IPayloadReadNotification {
-  notificationIds: number[];
+  notificationIds?: number[];
+  isReadAll?: boolean;
 }
 export interface IParamsListNotification {
   skip?: number;
@@ -165,7 +166,7 @@ export interface issueDetail {
   id: number;
   subject: string;
   assigneeId: number;
-  categoryId: number;
+  categoryId?: number;
   stateId: number;
   typeId: number;
   versionId: number;

@@ -52,7 +52,7 @@ function SearchProjectModal(params: any) {
                     <span className={styles.dashProjectsItemName}>{item.name}</span>
                     <span className={styles.dashProjectsItemKey}>[{item.key}]</span>
                   </div>
-                  {[UserProjectRole.PM, UserProjectRole.SUB_PM].includes(item?.userProject?.role) && (
+                  {[UserProjectRole.PM].includes(item?.userProject?.role) && (
                     <img
                       onClick={(e) => {
                         if (item?.userProject?.role === UserProjectRole.STAFF) {

@@ -80,8 +80,8 @@ export default function DashboardProjectIssues() {
   const [keyword, setKeyword] = useState<string | null>(null);
   const [filterIssues, setFilterIssues] = useState<IFilterIssue>(initialFilterIssue);
   const [openDetailIssue, setOpenDetailIssue] = useState(issueIdFromParam ? true : false);
-  const [issueId, setIssueId] = useState<number | null>(issueIdFromParam ? issueIdFromParam : null);
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [issueId, setIssueId] = useState<number | undefined>(issueIdFromParam ? issueIdFromParam : undefined);
+
   const [isCreated, setsIsCreated] = useState<boolean>(false);
   const [isAdvancedSearch, setIsAdvancedSearch] = useState<boolean>(false);
 
@@ -91,11 +91,6 @@ export default function DashboardProjectIssues() {
       setFilterIssues((prev) => ({ ...prev, pageIndex: 1 }));
     }, 500),
   );
-
-  useEffect(() => {
-    setOpenDetailIssue(issueIdFromParam ? true : false);
-    setIssueId(issueIdFromParam ? issueIdFromParam : null);
-  }, [params, issueIdFromParam]);
 
   const project = data?.data as IDetailProject;
   const userProject = project?.userProject;
@@ -160,6 +155,42 @@ export default function DashboardProjectIssues() {
       }),
     keepPreviousData: true,
   });
+
+  const { data: issueDetail, refetch: refetchDetailIssue } = useQuery({
+    queryKey: [queryKeys.issueDetail, issueId],
+    queryFn: () => {
+      if (issueId) return getIssueDetail(issueId!);
+    },
+    enabled: issueId !== undefined,
+  });
+
+  const [isEdit, setIsEdit] = useState<boolean>(
+    issueIdFromParam
+      ? [UserRole.ADMIN].includes(profile?.role) ||
+          ([UserProjectRole.SUB_PM].includes(userProject?.role) &&
+            issueDetail?.data?.categoryId &&
+            userProject.categoryIds?.includes(issueDetail?.data?.categoryId)) ||
+          [UserProjectRole.PM].includes(userProject?.role) ||
+          issueDetail?.data?.created?.id === profile?.id ||
+          issueDetail?.data?.assigneeId === profile?.id
+      : false,
+  );
+
+  useEffect(() => {
+    setOpenDetailIssue(issueIdFromParam ? true : false);
+    setIssueId(issueIdFromParam);
+    setIsEdit(
+      issueIdFromParam
+        ? [UserRole.ADMIN].includes(profile?.role) ||
+            ([UserProjectRole.SUB_PM].includes(userProject?.role) &&
+              issueDetail?.data?.categoryId &&
+              userProject.categoryIds?.includes(issueDetail?.data?.categoryId)) ||
+            [UserProjectRole.PM].includes(userProject?.role) ||
+            issueDetail?.data?.created?.id === profile?.id ||
+            issueDetail?.data?.assigneeId === profile?.id
+        : false,
+    );
+  }, [params, issueIdFromParam]);
 
   useEffect(() => {
     const statesSearch = projectIssueStateQuery?.data.reduce((acc: IStatesSearch[], cur: any, index: number) => {
@@ -256,14 +287,6 @@ export default function DashboardProjectIssues() {
       };
     });
   };
-
-  const { data: issueDetail, refetch: refetchDetailIssue } = useQuery({
-    queryKey: [queryKeys.issueDetail, issueId],
-    queryFn: () => {
-      if (issueId) return getIssueDetail(issueId!);
-    },
-    enabled: issueId !== undefined,
-  });
 
   const showModalDetailIssue = useCallback(() => {
     setOpenDetailIssue(true);

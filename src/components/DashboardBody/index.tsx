@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { DownOutlined } from '@ant-design/icons';
 import queryKeys from '@/connstant/queryKeys';
-import { IssueHistoryType, UserProjectStatus, UserRole } from '@/connstant/enum/common';
+import { IssueHistoryType, UserProjectRole, UserProjectStatus, UserRole } from '@/connstant/enum/common';
 import { history } from '@/App';
 import { handleSuccessMessage } from '@/utils/helper/common';
 import { handleErrorMessage } from '@/i18n';
@@ -251,22 +251,23 @@ function DashboardBody() {
                                   </div>
                                 )}
                               </div>
-                              {item?.userProject?.status === UserProjectStatus.ACTIVE && (
-                                <Link
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                  }}
-                                  to={`/project/${item.id}/setting`}
-                                >
-                                  <img
-                                    style={{ display: 'none' }}
-                                    src={icons.Setting}
-                                    alt="Setting detail project"
-                                    title="Project setting"
-                                    className={classNames(styles.displayDashProjectsItem)}
-                                  ></img>
-                                </Link>
-                              )}
+                              {item?.userProject?.status === UserProjectStatus.ACTIVE &&
+                                [UserProjectRole.PM].includes(item?.userProject?.role) && (
+                                  <Link
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    to={`/project/${item.id}/setting`}
+                                  >
+                                    <img
+                                      style={{ display: 'none' }}
+                                      src={icons.Setting}
+                                      alt="Setting detail project"
+                                      title="Project setting"
+                                      className={classNames(styles.displayDashProjectsItem)}
+                                    ></img>
+                                  </Link>
+                                )}
 
                               {item?.userProject?.status === UserProjectStatus.PENDING && (
                                 <div
