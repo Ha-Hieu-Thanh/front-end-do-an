@@ -3,12 +3,10 @@ import Cookies from 'js-cookie';
 import { io } from 'socket.io-client';
 const token = Cookies.get('token') || '';
 
-const socket = io(`http://localhost:80/socket`, {
+const socket = io('/', {
   transports: ['websocket'],
   extraHeaders: { authorization: token },
-  auth: {
-    token,
-  },
+  auth: { token },
 });
 
 export default socket;

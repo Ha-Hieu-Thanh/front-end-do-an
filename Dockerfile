@@ -1,20 +1,22 @@
-# Use an official Node.js runtime as the base image
-FROM node:18
+# Stage 1: Build React app using Yarn
+FROM node:18-alpine as builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and yarn.lock to the working directory
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install
 
-# Copy the rest of the application code to the working directory
 COPY . .
+RUN yarn build
 
-# Expose the port that the React app will run on
-EXPOSE 3000
+# Stage 2: Serve with NGINX
+FROM nginx:stable-alpine
 
-# Start the React app
-CMD ["yarn", "start"]
+# Copy built static files from builder
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# Optional: overwrite default NGINX config for React Router
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
